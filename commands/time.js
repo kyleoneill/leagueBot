@@ -3,7 +3,7 @@ const getTime = common.getTime
 
 module.exports = {
     name:'time',
-    execute(message, args, searchPage) {
+    execute(message, args) {
         message.channel.send(`The current time is ${getTime()}`)
     }
 }

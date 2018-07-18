@@ -1,26 +1,29 @@
 const common = require('../src/common')
 const getTime = common.getTime
+const buildList = require('../config/champions.json')
 
 module.exports = {
     name:'build',
-    async execute(message, args, searchPage) {
+    async execute(message, args) {
         try {
             if(!args.length) {
-                message.channel.send(`You need to tell me which champion to search for, like '!build Garen'.`)
+                message.channel.send(`You need to tell me which champion to search for, like '!build garen'.`)
             }
             else {
-                message.channel.send(`I'll get right on that, ${message.author}.`)
-                var build = await searchPage.getChampBuild(args[0])
-                if(!build.length) {
-                    await console.log(`${getTime()}: Error - ${build}`)
-                    await message.channel.send(`oWo wats dis, I did a fucko boingo! See the log for details.`)
-                }
-                else {
-                    await message.channel.send(`Your build is going to be:\n ${build}.`)
-                }
+                //https://www.mobafire.com/league-of-legends/champion/singed-18/guides
+                var champ = args[0].toLowerCase()
+                var build = buildList[champ]
+                var itemCounter = 1
+                var msg = `Your build is going to be...`
+                build.forEach(item => {
+                    msg += `\n${itemCounter}. ${item}`
+                    itemCounter++
+                });
+                message.channel.send(msg)
             }
         }
         catch(e) {
+            message.channel.send(`oWo wats dis, ${champ} doesn't seem to be anybody I know.\nMake sure you're inputting the champion name as one word. 'Lee Sin' should be input as 'leesin'.\nSee log for details.`)
             console.log(`${getTime()}: ${e}`)
         }
     }

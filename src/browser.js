@@ -9,6 +9,7 @@ function getTimeStamp() {
     return timeStamp
 }
 
+//kill getChampBuild, add a "GoogleSomething(thingToGoogle)" function which returns the first link
 class BrowserFunctions {
     async start() {
         await console.log(`${getTimeStamp()}: Starting browser.`)
