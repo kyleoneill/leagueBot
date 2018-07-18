@@ -56,7 +56,6 @@ class BrowserFunctions {
             await page.waitFor(500)
             await this.clickSelector('.lol-panel-body > guide-card:nth-child(2) > a')
 
-            await page.screenshot({path:'./tmp.png'})
             var build = await page.$$eval('ul.item-groups:nth-child(4) > li > div > span:nth-child(2)', spans => {
                 var spanList = []
                 spans.forEach(span => {

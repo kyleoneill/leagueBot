@@ -1,4 +1,4 @@
-const common = require('../common')
+const common = require('../src/common')
 const getTime = common.getTime
 
 module.exports = {

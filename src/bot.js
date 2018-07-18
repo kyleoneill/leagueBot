@@ -1,8 +1,8 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const bot = new Discord.Client()
-const {token} = require('./auth.json')
-const {prefix} = require('./config.json')
+const {token} = require('../config/auth.json')
+const {prefix} = require('../config/config.json')
 
 const common = require('./common')
 const getTime = common.getTime
@@ -13,7 +13,7 @@ let leagueSearch = new BrowserFunctions()
 bot.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for(const file of commandFiles) {
-    const command = require(`./commands/${file}`)
+    const command = require(`../commands/${file}`)
     bot.commands.set(command.name, command)
 }
 
