@@ -10,7 +10,6 @@ module.exports = {
                 message.channel.send(`You need to tell me which champion to search for, like '!build garen'.`)
             }
             else {
-                //https://www.mobafire.com/league-of-legends/champion/singed-18/guides
                 var champ = args[0].toLowerCase()
                 var build = buildList[champ]
                 var itemCounter = 1
