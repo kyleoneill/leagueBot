@@ -7,8 +7,8 @@ const {prefix} = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
 
-// const BrowserFunctions = require('./browser')
-// let leagueSearch = new BrowserFunctions()
+const BrowserFunctions = require('./browser')
+let botBrowser = new BrowserFunctions()
 
 bot.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -17,7 +17,7 @@ for(const file of commandFiles) {
     bot.commands.set(command.name, command)
 }
 
-//leagueSearch.start()
+botBrowser.start()
 
 bot.on('ready', () => {
     console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
@@ -30,8 +30,13 @@ bot.on('message', message => {
 
     if(!bot.commands.has(command)) return
     try {
-        bot.commands.get(command).execute(message, args)
-        console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
+        if(!args.length) {
+            console.log(`${getTime()}: User ${message.author.username} issued command '${command}.'`)
+        }
+        else {
+            console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
+        }
+        bot.commands.get(command).execute(message, args, botBrowser)
     }
     catch(e) {
         console.error(e)
