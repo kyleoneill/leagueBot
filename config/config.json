@@ -1,3 +1,16 @@
 {
-    "prefix": "!"
+    "prefix": "!",
+    "insults": [
+        "My mamma can play a game better than that, and she's a machine!",
+        "There goes a saying in the Field of Justice: git gud scrub",
+        ":regional_indicator_n: :regional_indicator_o: :regional_indicator_o: :regional_indicator_b: :regional_indicator_s:",
+        "You people really fizz me off."],
+    "help": [
+        "!build - I'll give you a build for the input champion. The champion name must be one word, like '!build leesin'.",
+        "!win - Sweet sweet victory.",
+        "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
+        "!restart - Restarts my web browser, use this if it crashes.",
+        "!userInfo - I'll say hello and tell you when your account was created.",
+        "!time - Just in case nobody owns a watch."
+    ]
 }
