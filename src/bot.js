@@ -39,7 +39,7 @@ bot.on('message', message => {
         bot.commands.get(command).execute(message, args, botBrowser)
     }
     catch(e) {
-        console.error(e)
+        console.error(`${getTime()}: e`)
         message.reply('There was an error trying to execute that command.')
     }
 })

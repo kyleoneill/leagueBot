@@ -7,6 +7,7 @@
         "You people really fizz me off."],
     "help": [
         "!build - I'll give you a build for the input champion. The champion name must be one word, like '!build leesin'.",
+        "!random - I'll give you a random champion to play.",
         "!win - Sweet sweet victory.",
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!restart - Restarts my web browser, use this if it crashes.",
