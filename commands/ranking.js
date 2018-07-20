@@ -1,4 +1,7 @@
 const common = require('../src/common.js')
+
+const refreshButtonSel = '#SummonerRefreshButton'
+
 module.exports = {
     name:'ranking',
     async execute(message, args, leagueBrowser) {
@@ -16,8 +19,8 @@ module.exports = {
                 }
                 var link = `http://na.op.gg/summoner/userName=${args[0]}`
                 await leagueBrowser.navigate(link)
-                await leagueBrowser.clickSelector('#SummonerRefreshButton')
-                await leagueBrowser.wait(5000)
+                await leagueBrowser.clickSelector(refreshButtonSel)
+                await leagueBrowser.wait(5000) //Long wait is needed for website to update the page
                 await leagueBrowser.waitForSel('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div > span')
                 profile.rank = await leagueBrowser.getInnerHTML('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div > span')
                 if(profile.rank != "Unranked") {

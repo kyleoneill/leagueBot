@@ -1,12 +1,13 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const bot = new Discord.Client()
+const sqlite = require('sqlite3')
+const sql = new sqlite
+
 const {token} = require('../config/auth.json')
 const {prefix} = require('../config/config.json')
-
 const common = require('./common')
 const getTime = common.getTime
-
 const BrowserFunctions = require('./browser')
 let botBrowser = new BrowserFunctions()
 
@@ -23,7 +24,7 @@ bot.on('ready', () => {
     console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
 });
 bot.on('message', message => {
-    if(message.author.bot || !message.content.startsWith(prefix)) return
+    if(message.author.bot || !message.content.startsWith(prefix) || !message.guild) return
     const args = message.content.slice(prefix.length).split(/ +/) //Discard prefix, return command and arguments in an array. Vars are split by spaces.
     const command = args.shift() //Removes first var from args (the command) and stores it in const 'command'
     var text = message.content
