@@ -20,8 +20,8 @@ module.exports = {
             await message.channel.send(`Congrats on your win!`)
         }
         catch(e){
-            message.channel.send(`The internet isn't playing nice with me, please try again.`)
-            console.log(e)
+            await message.channel.send(`The internet isn't playing nice with me, please try again.`)
+            await console.log(e)
         }
     }
 }

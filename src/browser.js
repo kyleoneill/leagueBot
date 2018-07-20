@@ -45,6 +45,13 @@ class BrowserFunctions {
     async wait(ms) {
         await page.waitFor(ms)
     }
+    async getInnerHTML(selector) {
+        await this.waitForSel(selector)
+        var HTML = await page.$eval(selector, (e) => {
+            return (e.innerHTML).trim()
+        })
+        return HTML
+    }
     async screenshot(selector) {
         await this.waitForSel(selector)
         await this.clickSelector(selector)
@@ -55,7 +62,7 @@ class BrowserFunctions {
             omitBackground: true,
         })
     }
-    async debug() {
+    async debugScreenshot() {
         await page.screenshot({path: './images/debug.png'})
     }
 }
