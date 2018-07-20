@@ -28,7 +28,10 @@ bot.on('message', message => {
     const command = args.shift() //Removes first var from args (the command) and stores it in const 'command'
     var text = message.content
 
-    if(!bot.commands.has(command)) return
+    if(!bot.commands.has(command)) {
+        message.channel.send(`I don't seem to know '!${command}'. Check out '!help' to see what I can do.`)
+        return
+    }
     try {
         if(!args.length) {
             console.log(`${getTime()}: User ${message.author.username} issued command '${command}.'`)
@@ -40,7 +43,7 @@ bot.on('message', message => {
     }
     catch(e) {
         console.error(`${getTime()}: e`)
-        message.reply('There was an error trying to execute that command.')
+        message.channel.send('There was an error trying to execute that command.')
     }
 })
 bot.login(token)

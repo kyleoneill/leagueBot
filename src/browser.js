@@ -6,7 +6,6 @@ const timeOutValue = 5000
 let page
 let browser
 
-//kill getChampBuild, add a "GoogleSomething(thingToGoogle)" function which returns the first link
 class BrowserFunctions {
     async start() {
         await console.log(`${timeStamp()}: Starting browser.`)

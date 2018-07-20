@@ -35,7 +35,7 @@ module.exports = {
                 await message.channel.send(`Ranking for ${args[0]}\nRank: ${profile.rank}\nLP: ${profile.leaguePoints}\nRanked Win Rate: ${profile.rankedWinRate}\nOverall Win Rate: ${profile.winrate}`)
             }
             catch(e) {
-                await message.channel.send(`Something seems to have gone wrong, are you sure that your username is '${args[0]}'?\nCheck the log for details.`)
+                await message.channel.send(`Something seems to have gone wrong, are you sure the username '${args[0]}' exists?\nCheck the log for details.`)
                 await console.log(`${common.getTime()}: ${e}`)
             }
         }
