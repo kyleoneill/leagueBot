@@ -1,8 +1,6 @@
 const fs = require('fs')
 const Discord = require('discord.js')
 const bot = new Discord.Client()
-const sqlite = require('sqlite3')
-const sql = new sqlite
 
 const {token} = require('../config/auth.json')
 const {prefix} = require('../config/config.json')
@@ -10,6 +8,8 @@ const common = require('./common')
 const getTime = common.getTime
 const BrowserFunctions = require('./browser')
 let botBrowser = new BrowserFunctions()
+const userDBFunctions = require('./databases/userDB')
+let userDB = new userDBFunctions()
 
 bot.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -22,7 +22,9 @@ botBrowser.start()
 
 bot.on('ready', () => {
     console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
+    userDB.start()
 });
+
 bot.on('message', message => {
     if(message.author.bot || !message.content.startsWith(prefix) || !message.guild) return
     const args = message.content.slice(prefix.length).split(/ +/) //Discard prefix, return command and arguments in an array. Vars are split by spaces.
@@ -40,7 +42,7 @@ bot.on('message', message => {
         else {
             console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
         }
-        bot.commands.get(command).execute(message, args, botBrowser)
+        bot.commands.get(command).execute(message, args, botBrowser, userDB)
     }
     catch(e) {
         console.error(`${getTime()}: e`)
