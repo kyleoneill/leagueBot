@@ -23,15 +23,15 @@ class dbFunctions {
     }
     set(message, champName) {
         try{
-            sql.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.id}-${message.guild.id}', '${message.author.username}', '${champName}')`).run()
+            sql.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.id}-${message.guild.id}', '${message.author.username}', '${escape(champName)}')`).run()
         }
         catch(e) {
             console.log(`${timeStamp()}: ${e}`)
         }
     }
-    get() {
+    get(message) {
         try {
-            return sql.prepare(`SELECT * FROM users`).get()
+            return sql.prepare(`SELECT * FROM users WHERE username == '${message.author.username}'`).get()
         }
         catch(e) {
             console.log(`${timeStamp()}: ${e}`)

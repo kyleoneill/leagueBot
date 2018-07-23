@@ -13,17 +13,18 @@ module.exports = {
                     message.channel.send(`You haven't told me what to set your champion to be.`)
                     return
                 }
-                botDatabase.set(message, args[1])
-                message.channel.send(`I've set your favorite champion to be ${args[1]}.`)
+                var truncatedInput = args[1].substring(0, 500)
+                botDatabase.set(message, truncatedInput)
+                message.channel.send(`I've set your favorite champion to be ${truncatedInput}, ${message.author.username}.`)
             }
             else if(args[0] == 'get') {
-                var info = botDatabase.get()
+                var info = botDatabase.get(message)
                 if(!info) {
                     message.channel.send(`You haven't set any data yet.`)
                     return
                 }
                 var {favChamp} = info
-                message.channel.send(`Your favorite champion is ${favChamp}.`)
+                message.channel.send(`${message.author.username}, your favorite champion is ${unescape(favChamp)}.`)
             }
             else {
                 message.channel.send(`That isn't a valid argument. See '!help' for assistance.`)
