@@ -43,6 +43,9 @@ bot.on('message', message => {
             console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
         }
         bot.commands.get(command).execute(message, args, botBrowser, userDB)
+        if(command == 'shutdown' && message.author.username == 'sammie287') {
+            bot.destroy()
+        }
     }
     catch(e) {
         console.error(`${getTime()}: e`)
@@ -50,3 +53,4 @@ bot.on('message', message => {
     }
 })
 bot.login(token)
+
