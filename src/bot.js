@@ -48,12 +48,11 @@ bot.on('message', message => {
         return
     }
     try {
-        if(!args.length) {
-            console.log(`${getTime()}: User ${message.author.username} issued command '${command}.'`)
+        var logMessage = `${getTime()}: User '${message.author.username}' in guild '${message.guild}' issued command '${command}'`
+        if(args.length) {
+            logMessage += ` with args '${args}'`
         }
-        else {
-            console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
-        }
+        console.log(logMessage)
         bot.commands.get(command).execute.call(this, message, args)
         if(command == 'shutdown' && message.author.username == 'sammie287') {
             bot.destroy()
