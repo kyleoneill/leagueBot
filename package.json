@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "better-sqlite3": "^4.1.4",
     "discord.io": "^2.5.3",
     "discord.js": "^11.3.2",
     "node-gyp": "^3.7.0",
