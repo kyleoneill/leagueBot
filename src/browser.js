@@ -51,18 +51,34 @@ class BrowserFunctions {
         })
         return HTML
     }
-    async screenshot(selector) {
-        await this.waitForSel(selector)
-        await this.clickSelector(selector)
-        await this.wait(1000)
-        var img = await page.$('div.irc_c:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > a:nth-child(1) > img:nth-child(1)')
-        await img.screenshot({
-            path:'./images/tmp.png',
-            omitBackground: true,
-        })
-    }
     async debugScreenshot() {
         await page.screenshot({path: './images/debug.png'})
+    }
+    async checkForPics() {
+        if(fs.existsSync(`./catpics/photo1.png`)) {
+            console.log(`${timeStamp()}: !win photos already exist.`)
+        }
+        else{
+            console.log(`${timeStamp()}: !win photos do not exist, scraping...`)
+            const searchLink = 'https://www.google.com/search?q=happy+cat+picture'
+            const imageButtonSel = '#hdtb-msb-vis > div:nth-child(2) > a'
+            const numOfPhotos = 31
+            try {
+                await this.navigate(searchLink)
+                await this.clickSelector(imageButtonSel)
+                var images = await page.$$('img')
+                for(var i = 1; i < numOfPhotos; i++) {
+                    await images[i].screenshot({
+                        path:`./catpics/photo${i}.png`,
+                        omitBackground: true
+                    })
+                }
+                await console.log(`${timeStamp()}: Scraping is finished.`)
+            }
+            catch(e){
+                await console.log(`${timeStamp()}: ${e}`)
+            }
+        }
     }
 }
 
