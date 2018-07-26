@@ -1,16 +1,23 @@
+//Package imports
 const fs = require('fs')
 const Discord = require('discord.js')
 const bot = new Discord.Client()
 
+//Custom Imports
 const {token} = require('../config/auth.json')
 const {prefix} = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
+
+//Bot Browser
 const BrowserFunctions = require('./browser')
-let botBrowser = new BrowserFunctions()
+let DCbotBrowser = new BrowserFunctions()
+
+//Bot Database
 const userDBFunctions = require('./databases/userDB')
 let userDB = new userDBFunctions()
 
+//Collect bot commands from commands folder
 bot.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for(const file of commandFiles) {
@@ -18,13 +25,18 @@ for(const file of commandFiles) {
     bot.commands.set(command.name, command)
 }
 
-botBrowser.start()
-
+//On bot ready, start the database and browser
 bot.on('ready', () => {
     console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
     userDB.start()
+    DCbotBrowser.start()
 });
 
+//Pack objects inside of 'this' for transport to commands
+this.botBrowser = DCbotBrowser
+this.botDatabase = userDB
+
+//On discord message
 bot.on('message', message => {
     if(message.author.bot || !message.content.startsWith(prefix) || !message.guild) return
     const args = message.content.slice(prefix.length).split(/ +/) //Discard prefix, return command and arguments in an array. Vars are split by spaces.
@@ -42,7 +54,7 @@ bot.on('message', message => {
         else {
             console.log(`${getTime()}: User ${message.author.username} issued command '${command}' with args '${args}'`)
         }
-        bot.commands.get(command).execute(message, args, botBrowser, userDB)
+        bot.commands.get(command).execute.call(this, message, args)
         if(command == 'shutdown' && message.author.username == 'sammie287') {
             bot.destroy()
         }

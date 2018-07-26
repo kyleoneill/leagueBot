@@ -3,7 +3,7 @@ const getTime = common.getTime
 
 module.exports = {
     name:'favChamp',
-    execute(message, args, browser, botDatabase) {
+    execute(message, args) {
         try {
             if(!args) {
                 message.channel.send(`You're missing arguments. Use 'set' to set a favorite champion or 'get' to see yours.`)
@@ -14,11 +14,11 @@ module.exports = {
                     return
                 }
                 var truncatedInput = args[1].substring(0, 500)
-                botDatabase.set(message, truncatedInput)
+                this.botDatabase.set(message, truncatedInput)
                 message.channel.send(`I've set your favorite champion to be ${truncatedInput}, ${message.author.username}.`)
             }
             else if(args[0] == 'get') {
-                var info = botDatabase.get(message)
+                var info = this.botDatabase.get(message)
                 if(!info) {
                     message.channel.send(`You haven't set any data yet.`)
                     return
