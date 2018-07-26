@@ -26,10 +26,11 @@ for(const file of commandFiles) {
 }
 
 //On bot ready, start the database and browser
-bot.on('ready', () => {
-    console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
-    userDB.start()
-    DCbotBrowser.start()
+bot.on('ready', async () => {
+    await console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
+    await userDB.start()
+    await DCbotBrowser.start()
+    await DCbotBrowser.checkForPics()
 });
 
 //Pack objects inside of 'this' for transport to commands
