@@ -45,6 +45,9 @@ class dbFunctions {
             console.log(`${timeStamp()}: ${e}`)
         }
     }
+    close(){
+        db.close()
+    }
 }
 
 module.exports = dbFunctions

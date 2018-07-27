@@ -10,7 +10,7 @@ module.exports = {
             return
         }
         await this.botBrowser.shutdown()
-        await this.userDB.close()
+        await this.botDatabase.close()
         await console.log(`${getTime()}: Browser and DB have been shut down.`)
     }
 }
