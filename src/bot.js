@@ -5,6 +5,7 @@ const bot = new Discord.Client()
 
 //Custom Imports
 const {token} = require('../config/auth.json')
+const {leagueKey} = require('../config/auth.json')
 const {prefix} = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
@@ -36,6 +37,7 @@ bot.on('ready', async () => {
 //Pack objects inside of 'this' for transport to commands
 this.botBrowser = DCbotBrowser
 this.botDatabase = userDB
+this.leagueAPI = leagueKey
 
 //On discord message
 bot.on('message', message => {

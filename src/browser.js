@@ -62,7 +62,7 @@ class BrowserFunctions {
             console.log(`${timeStamp()}: !win photos do not exist, scraping...`)
             const searchLink = 'https://www.google.com/search?q=happy+cat+picture'
             const imageButtonSel = '#hdtb-msb-vis > div:nth-child(2) > a'
-            const numOfPhotos = 31
+            const numOfPhotos = 51
             try {
                 await this.navigate(searchLink)
                 await this.clickSelector(imageButtonSel)
