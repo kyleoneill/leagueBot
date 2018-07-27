@@ -1,6 +1,6 @@
 const common = require('../src/common')
 const getTime = common.getTime
-const buildList = require('../config/champions.json')
+const buildList = require('../config/buildList.json')
 
 module.exports = {
     name:'build',
