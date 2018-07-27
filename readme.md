@@ -10,5 +10,4 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 6. `!lose` - When you lose, this command will ~~remind you that you're garbage~~ help raise your spirits.
 7. `!win` - Fetches a happy kitty from Google to help celebrate a well earned victory.
 8. `!restart` - Restarts the bots browser.
-9. `!time` - Displays the current time.
-10. `!userInfo` - Displays the account creation time of the user who gives this command.
+9. `!free` - Lists the free champions for the week.
