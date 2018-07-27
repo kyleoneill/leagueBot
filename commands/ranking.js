@@ -35,9 +35,10 @@ module.exports = {
                 const rankingsURL = `https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/${summonerInfo.id}?api_key=${this.leagueAPI}`
                 var leaguePositions = await httpsGetAsync(rankingsURL)
 
+                message.channel.send(`Ranking for ${summonerInfo.name}:`)
                 leaguePositions.forEach(position => {
                     const winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
-                    message.channel.send(`Ranking for ${summonerInfo.name}:\nQueue Type: ${position.queueType}\nRank: ${position.tier}\nLeague Name: ${position.leagueName}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
+                    message.channel.send(`Queue Type: ${position.queueType}\nRank: ${position.tier}\nLeague Name: ${position.leagueName}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
                 });
             }
             catch(e) {
