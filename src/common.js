@@ -16,5 +16,18 @@ module.exports = {
                 })
             }).on('error', reject)
         })
+    },
+    unpackMap: function(map) {
+        var mapValues = map.values()
+        var list = []
+        var isDone = false
+        while(!isDone){
+            var tmp = mapValues.next()
+            if(tmp.value != undefined){
+                list.push(tmp.value)
+            }
+            isDone = tmp.done
+        }
+        return list
     }
 }
