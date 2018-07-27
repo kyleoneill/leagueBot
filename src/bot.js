@@ -4,9 +4,8 @@ const Discord = require('discord.js')
 const bot = new Discord.Client()
 
 //Custom Imports
-const {token} = require('../config/auth.json')
-const {leagueKey} = require('../config/auth.json')
-const {prefix} = require('../config/config.json')
+const auth = require('../config/auth.json')
+const config = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
 
@@ -37,12 +36,14 @@ bot.on('ready', async () => {
 //Pack objects inside of 'this' for transport to commands
 this.botBrowser = DCbotBrowser
 this.botDatabase = userDB
-this.leagueAPI = leagueKey
+this.leagueAPI = auth.leagueKey
+this.discordID = auth.discordID
+this.guildList = bot.guilds
 
 //On discord message
 bot.on('message', message => {
-    if(message.author.bot || !message.content.startsWith(prefix) || !message.guild) return
-    const args = message.content.slice(prefix.length).split(/ +/) //Discard prefix, return command and arguments in an array. Vars are split by spaces.
+    if(message.author.bot || !message.content.startsWith(config.prefix) || !message.guild) return
+    const args = message.content.slice(config.prefix.length).split(', ') //Discard prefix, return command and arguments in an array. Vars are split by commas
     const command = args.shift() //Removes first var from args (the command) and stores it in const 'command'
     var text = message.content
 
@@ -66,5 +67,5 @@ bot.on('message', message => {
         message.channel.send('There was an error trying to execute that command.')
     }
 })
-bot.login(token)
+bot.login(auth.token)
 

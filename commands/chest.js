@@ -9,6 +9,7 @@ module.exports = {
             return
         }
         //List of champions. Sorted by their id, contains their name
+        //DEPRECATED - REPLACE WITH DATA DRAGON
         var championList = await getRequest(`https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=true&api_key=${this.leagueAPI}`)
         //List of info about a summoner. Input is their username, output here is their id
         var summonerInfo = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${args[0]}?api_key=${this.leagueAPI}`)

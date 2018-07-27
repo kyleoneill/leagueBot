@@ -22,7 +22,7 @@ module.exports = {
             }
         }
         catch(e) {
-            message.channel.send(`oWo wats dis, ${champ} doesn't seem to be anybody I know.\nMake sure you're inputting the champion name as one word. 'Lee Sin' should be input as 'leesin'.\nSee log for details.`)
+            message.channel.send(`oWo wats dis, ${champ} doesn't seem to be anybody I know.\nSee log for details.`)
             console.log(`${getTime()}: ${e}`)
         }
     }

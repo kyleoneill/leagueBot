@@ -5,6 +5,7 @@ module.exports = {
     name:'free',
     async execute(message, args) {
         try{
+            //DEPRECATED - REPLACE WITH DATA DRAGON
             var championListPost = await getRequest(`https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=true&api_key=${this.leagueAPI}`)
             var freeListPost = await getRequest(`https://na1.api.riotgames.com/lol/platform/v3/champions?freeToPlay=true&api_key=${this.leagueAPI}`)
             var freeChampions = freeListPost.champions
