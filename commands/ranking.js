@@ -1,6 +1,21 @@
 const common = require('../src/common.js')
+const https = require('https')
 
 const refreshButtonSel = '#SummonerRefreshButton'
+
+function httpsGetAsync(url) {
+    return new Promise((resolve, reject) => {
+        https.get(url, (response) => {
+            let data = ''
+            response.on('data', (chunk) => {
+                data += chunk
+            })
+            response.on('end', () => {
+                resolve(JSON.parse(data))
+            })
+        }).on('error', reject)
+    })
+}
 
 module.exports = {
 
@@ -9,40 +24,25 @@ module.exports = {
     name:'ranking',
     async execute(message, args) {
         if(!args.length) {
-            await message.channel.send(`You need to give me a username to look up, like '!ranking teemo4lyfe'.`)
+            message.channel.send(`You need to give me a username to look up, like '!ranking teemo4lyfe'.`)
         }
         else {
             try {
-                var tmp
-                var profile = {
-                    rankedWinRate: null,
-                    winrate: null,
-                    rank: null,
-                    leaguePoints: null,
-                }
-                var link = `http://na.op.gg/summoner/userName=${args[0]}`
-                await this.leagueBrowser.navigate(link)
-                await this.leagueBrowser.clickSelector(refreshButtonSel)
-                await this.leagueBrowser.wait(5000) //Long wait is needed for website to update the page
-                await this.leagueBrowser.waitForSel('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div > span')
-                profile.rank = await this.leagueBrowser.getInnerHTML('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div > span')
-                if(profile.rank != "Unranked") {
-                    profile.rank = await this.leagueBrowser.getInnerHTML('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div.TierRank > span')
-                    profile.leaguePoints = await this.leagueBrowser.getInnerHTML('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div.TierInfo > span.LeaguePoints')
-                    tmp = await this.leagueBrowser.getInnerHTML('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.SideContent > div.TierBox.Box > div.SummonerRatingMedium > div.TierRankInfo > div.TierInfo > span.WinLose > span.winratio')
-                    profile.rankedWinRate = tmp.substr(9)
-                }
-                else {
-                    profile.leaguePoints = "Unranked"
-                    profile.rankedWinRate = "Unranked"
-                }
-                profile.winrate = await this.leagueBrowser.getInnerHTML('#GameAverageStatsBox-summary > div.Box > table > tbody > tr:nth-child(2) > td.Summary > div > div.Text')
+                const summonerName = args[0]
+                const summonerURL = `https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${this.leagueAPI}`
+                var summonerInfo = await httpsGetAsync(summonerURL)
 
-                await message.channel.send(`Ranking for ${args[0]}\nRank: ${profile.rank}\nLP: ${profile.leaguePoints}\nRanked Win Rate: ${profile.rankedWinRate}\nOverall Win Rate: ${profile.winrate}`)
+                const rankingsURL = `https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/${summonerInfo.id}?api_key=${this.leagueAPI}`
+                var leaguePositions = await httpsGetAsync(rankingsURL)
+
+                leaguePositions.forEach(position => {
+                    const winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
+                    message.channel.send(`Ranking for ${summonerInfo.name}:\nQueue Type: ${position.queueType}\nRank: ${position.tier}\nLeague Name: ${position.leagueName}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
+                });
             }
             catch(e) {
-                await message.channel.send(`Something seems to have gone wrong, are you sure the username '${args[0]}' exists?\nCheck the log for details.`)
-                await console.log(`${common.getTime()}: ${e}`)
+                message.channel.send(`Something seems to have gone wrong, are you sure the username '${args[0]}' exists?\nCheck the log for details.`)
+                console.log(`${common.getTime()}: ${e}`)
             }
         }
     }

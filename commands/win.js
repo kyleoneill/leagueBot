@@ -5,7 +5,7 @@ module.exports = {
     name:'win',
     async execute(message, args) {
         try{
-            var index = await Math.floor(Math.random() * 30) + 1
+            var index = await Math.floor(Math.random() * 50) + 1
             await message.channel.send({
                 files: [{
                     attachment: `./catpics/photo${index}.png`,
