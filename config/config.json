@@ -7,13 +7,14 @@
         "You people really fizz me off."],
     "help": [
         "Arguments are broken up by a comma followed by a space, for example: !favChamp, set, lee sin",
-        "!build [champ] - I'll give you a build for the input champion.",
+        "!build, [champ] - I'll give you a build for the input champion.",
         "!random - I'll give you a random champion to play.",
-        "!ranking [username] - I'll look up the ranking information for the given summoner.",
-        "!favChamp get/set [championName] - I'll set your favorite champion or let you know what it currently is. Include the champion name when setting, do not include it when getting.",
+        "!ranking, [username] - I'll look up the ranking information for the given summoner.",
+        "!favChamp, get/set, [championName] - I'll set your favorite champion or let you know what it currently is. Include the champion name when setting, do not include it when getting.",
         "!win - Sweet sweet victory.",
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!restart - Restarts my web browser, use this if it crashes.",
-        "!free - I'll list the free champions for this week."
+        "!free - I'll list the free champions for this week.",
+        "!chest, [summoner] - Displays the champions that can earn mastery chests."
     ]
 }

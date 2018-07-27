@@ -56,11 +56,11 @@ module.exports = {
                     index++
                 }
             }
-            message.channel.send(`You still have to earn chests on a lot of champions. I'm selecting 8 of them at random.`)
+            message.channel.send(`${summonerInfoList.name} still has to earn chests on a lot of champions. I'm selecting 8 of them at random.`)
             message.channel.send(`${createMessage(chestChampionsNameShort)}`)
         }
         else{
-            message.channel.send(`You still have to earn chests on...`)
+            message.channel.send(`${summonerInfoList.name}, still has to earn chests on...`)
             message.channel.send(`${createMessage(chestChampionsName)}`)
         }
     }
