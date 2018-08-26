@@ -9,10 +9,6 @@ const config = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
 
-//Bot Browser
-const BrowserFunctions = require('./browser')
-let DCbotBrowser = new BrowserFunctions()
-
 //Bot Database
 const userDBFunctions = require('./databases/userDB')
 let userDB = new userDBFunctions()
@@ -25,17 +21,15 @@ for(const file of commandFiles) {
     bot.commands.set(command.name, command)
 }
 
-//On bot ready, start the database and browser
+//On bot ready, start the database
 bot.on('ready', async () => {
     await console.log(`${getTime()}: Logged in as: ${bot.user.username}`)
     await userDB.start()
-    await DCbotBrowser.start()
-    await DCbotBrowser.checkForPics()
 });
 
 //Pack objects inside of 'this' for transport to commands
-this.botBrowser = DCbotBrowser
 this.botDatabase = userDB
+this.catAPI = auth.catKey
 this.leagueAPI = auth.leagueKey
 this.discordID = auth.discordID
 this.guildList = bot.guilds
@@ -68,4 +62,3 @@ bot.on('message', message => {
     }
 })
 bot.login(auth.token)
-
