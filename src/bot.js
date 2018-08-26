@@ -27,7 +27,7 @@ for(const file of commandFiles) {
 
 //On bot ready, start the database and browser
 bot.on('ready', async () => {
-    await console.log(`${getTime()}: Logging in as: ${bot.user.username}`)
+    await console.log(`${getTime()}: Logged in as: ${bot.user.username}`)
     await userDB.start()
     await DCbotBrowser.start()
     await DCbotBrowser.checkForPics()
