@@ -23,7 +23,7 @@ for(const file of commandFiles) {
 
 //On bot ready, start the database
 bot.on('ready', async () => {
-    await console.log(`${getTime()}: Logged in as: ${bot.user.username}`)
+    console.log(`${getTime()}: Logged in as: ${bot.user.username}`)
     await userDB.start()
 });
 
