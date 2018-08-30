@@ -9,6 +9,6 @@ module.exports = {
             return
         }
         await this.botDatabase.close()
-        await console.log(`${getTime()}: DB has been closed.`)
+        console.log(`${getTime()}: DB has been closed.`)
     }
 }

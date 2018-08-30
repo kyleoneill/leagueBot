@@ -18,16 +18,17 @@ async function loadImage() {
         'X-API-KEY': this.catAPI,
     }
     var query_params = {
-    'mime_types':'jpg,png', //we only want static images as Discord doesn't like gifs
-    'size':'small',   //get the small images as the size is prefect for Discord's 390x256 limit
-    'limit' : 1       //only need one
+        'mime_types':'jpg,png', //we only want static images as Discord doesn't like gifs
+        'size':'small',   //get the small images as the size is prefect for Discord's 390x256 limit
+        'limit' : 1       //only need one
     }
     let queryString = querystring.stringify(query_params) //convert this obejc to query string 
 
     try {
-    let _url = `https://api.thedogapi.com/v1/images/search?${queryString}`
-    var response = await r2.get(_url , {headers} ).json
-    } catch (e) {
+        let _url = `https://api.thedogapi.com/v1/images/search?${queryString}`
+        var response = await r2.get(_url , {headers} ).json
+    }
+    catch (e) {
         console.log(`${getTime()}: ${e}`)
         message.channel.send(`Something wrong seems to have happened, check the log.`)
     }

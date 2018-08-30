@@ -23,6 +23,7 @@ module.exports = {
                                 index++
                             });
                             message.channel.send(`The free champions this week are...\n${reply}`)
+                            return
                         }
                     }
                 }
