@@ -29,5 +29,8 @@ module.exports = {
             isDone = tmp.done
         }
         return list
+    },
+    botLog: function(msg) {
+        console.log(`${module.exports.getTime()}: ${msg}`)
     }
 }

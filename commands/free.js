@@ -31,7 +31,7 @@ module.exports = {
         }
         catch(e){
             message.channel.send(`Something wrong seems to have happened, check the logs.`)
-            console.log(`${common.getTime()}: ${e}`)
+            common.botLog(`${e}`)
         }
     }
 }

@@ -8,6 +8,7 @@ const auth = require('../config/auth.json')
 const config = require('../config/config.json')
 const common = require('./common')
 const getTime = common.getTime
+const botLog = common.botLog
 
 //Bot Database
 const userDBFunctions = require('./databases/userDB')
@@ -23,7 +24,7 @@ for(const file of commandFiles) {
 
 //On bot ready, start the database
 bot.on('ready', async () => {
-    console.log(`${getTime()}: Logged in as: ${bot.user.username}`)
+    botLog(`Logged in as: ${bot.user.username}`)
     await userDB.start()
 });
 
@@ -42,6 +43,7 @@ bot.on('message', async message => {
 
     if(!bot.commands.has(command)) {
         message.channel.send(`I don't seem to know '!${command}'. Check out '!help' to see what I can do.`)
+        botLog(`User ${message.author.username} tried to execute command ${command}.`)
         return
     }
     try {
@@ -49,15 +51,15 @@ bot.on('message', async message => {
         if(args.length) {
             logMessage += ` with args '${args}'`
         }
-        console.log(logMessage)
+        botLog(logMessage)
         await bot.commands.get(command).execute.call(this, message, args)
         if(command == 'shutdown' && message.author.username == 'sammie287') {
-            console.log(`${getTime()}: Bot shutting down.`)
+            botLog('Bot shutting down')
             bot.destroy()
         }
     }
     catch(e) {
-        console.error(`${getTime()}: e`)
+        botLog(e)
         message.channel.send('There was an error trying to execute that command.')
     }
 })

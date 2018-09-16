@@ -23,7 +23,7 @@ module.exports = {
         }
         catch(e) {
             message.channel.send(`oWo wats dis, ${champ} doesn't seem to be anybody I know.\nSee log for details.`)
-            console.log(`${getTime()}: ${e}`)
+            common.botLog(`${e}`)
         }
     }
 }

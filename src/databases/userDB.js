@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer')
 const common = require('../common')
 const timeStamp = common.getTime
+const botLog = common.botLog
 const sqlite = require('sqlite3').verbose()
 const db = new sqlite.Database('./database.sqlite')
 
@@ -9,16 +9,16 @@ class dbFunctions {
         try{
             db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name = 'users'`, (error, row) => {
                 if(row !== undefined) {
-                    console.log(`${timeStamp()}: SQLite table exists.`)
+                    botLog(`SQLite table exists.`)
                 }
                 else {
-                    console.log(`${timeStamp()}: SQLite table does not exist, creating a new table.`)
+                    botLog(`SQLite table does not exist, creating a new table.`)
                     db.run("CREATE TABLE users(username TEXT, favChamp TEXT)")
                 }
             })
         }
         catch(e) {
-            console.log(`${timeStamp()}: ${e}`)
+            botLog(`${e}`)
         }
     }
     async set(message, champName) {
@@ -26,7 +26,7 @@ class dbFunctions {
             await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${escape(champName)}')`).run()
         }
         catch(e) {
-            console.log(`${timeStamp()}: ${e}`)
+            botLog(`${e}`)
         }
     }
     async get(message, callback) {
@@ -42,7 +42,7 @@ class dbFunctions {
             })
         }
         catch(e) {
-            console.log(`${timeStamp()}: ${e}`)
+            botLog(`${e}`)
         }
     }
     close(){
