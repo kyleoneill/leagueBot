@@ -22,7 +22,7 @@ module.exports = {
             }
             catch(e) {
                 message.channel.send(`Something seems to have gone wrong, are you sure the username '${args[0]}' exists?\nCheck the log for details.`)
-                console.log(`${common.getTime()}: ${e}`)
+                common.botLog(`${e}`)
             }
         }
     }

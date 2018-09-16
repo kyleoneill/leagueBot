@@ -29,7 +29,7 @@ async function loadImage() {
         var response = await r2.get(_url , {headers} ).json
     }
     catch (e) {
-        console.log(`${getTime()}: ${e}`)
+        common.botLog(`${e}`)
         message.channel.send(`Something wrong seems to have happened, check the log.`)
     }
     return response

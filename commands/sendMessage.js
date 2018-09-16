@@ -18,7 +18,7 @@ module.exports = {
             channelList[0].send(args[1])
         }
         catch(e){
-            console.log(`${common.getTime()}: ${e}`)
+            common.botLog(`${e}`)
         }
     }
 }
