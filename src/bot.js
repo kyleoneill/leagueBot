@@ -24,6 +24,7 @@ for(const file of commandFiles) {
 
 //On bot ready, start the database
 bot.on('ready', async () => {
+    botLog(`~~~~~Bot Started~~~~~`)
     botLog(`Logged in as: ${bot.user.username}`)
     await userDB.start()
 });
@@ -43,7 +44,7 @@ bot.on('message', async message => {
 
     if(!bot.commands.has(command)) {
         message.channel.send(`I don't seem to know '!${command}'. Check out '!help' to see what I can do.`)
-        botLog(`User ${message.author.username} tried to execute command ${command}.`)
+        botLog(`User ${message.author.username} tried to execute command '${command}'.`)
         return
     }
     try {
@@ -54,7 +55,7 @@ bot.on('message', async message => {
         botLog(logMessage)
         await bot.commands.get(command).execute.call(this, message, args)
         if(command == 'shutdown' && message.author.username == 'sammie287') {
-            botLog('Bot shutting down')
+            botLog('~~~~~Bot shutting down~~~~~')
             bot.destroy()
         }
     }

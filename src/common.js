@@ -1,3 +1,4 @@
+const fs = require('fs')
 const https = require('https')
 module.exports = {
     getTime: function() {
@@ -31,6 +32,22 @@ module.exports = {
         return list
     },
     botLog: function(msg) {
-        console.log(`${module.exports.getTime()}: ${msg}`)
+        var output = `${module.exports.getTime()}: ${msg}`
+        console.log(output)
+        output += '\n'
+        const path = 'log.txt'
+        try{
+            if(!fs.existsSync(path)){
+                fs.writeFileSync(path, '', 'utf8', (err) => {
+                    if(err) throw err
+                })
+            }
+            fs.appendFileSync(path, output, 'utf8', (err) => {
+                if(err) throw err
+            })
+        }
+        catch(e){
+            console.log(`${module.exports.getTime()}: Error saving log file.\n${e}`)
+        }
     }
 }
