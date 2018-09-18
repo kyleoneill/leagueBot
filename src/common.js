@@ -83,7 +83,7 @@ module.exports = {
         
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-            console.log(`Error Sending Email\n${error}`)
+            module.exports.botLog(`Error Sending Email: ${error}`)
             } else {
             console.log('Email sent: ' + info.response)
             module.exports.botLog(`Log file emailed successfully`)
