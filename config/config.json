@@ -13,7 +13,6 @@
         "!favChamp, get/set, [championName] - I'll set your favorite champion or let you know what it currently is. Include the champion name when setting, do not include it when getting.",
         "!win - Sweet sweet victory.",
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
-        "!restart - Restarts my web browser, use this if it crashes.",
         "!free - I'll list the free champions for this week.",
         "!chest, [summoner] - Displays the champions that can earn mastery chests."
     ]
