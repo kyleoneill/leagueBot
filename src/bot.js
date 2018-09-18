@@ -24,9 +24,16 @@ for(const file of commandFiles) {
 
 //On bot ready, start the database
 bot.on('ready', async () => {
-    botLog(`~~~~~Bot Started~~~~~`)
-    botLog(`Logged in as: ${bot.user.username}`)
-    await userDB.start()
+    try{
+        botLog(`~~~~~Bot Started~~~~~`)
+        botLog(`Logged in as: ${bot.user.username}`)
+        await userDB.start()
+        botLog(`Attempting to email log file`)
+        await common.emailLog()
+    }
+    catch(e){
+        botLog(e)
+    }
 });
 
 //Pack objects inside of 'this' for transport to commands
