@@ -46,8 +46,17 @@ this.guildList = bot.guilds
 //On discord message
 bot.on('message', async message => {
     if(message.author.bot || !message.content.startsWith(config.prefix) || !message.guild) return
-    const args = message.content.slice(config.prefix.length).split(', ') //Discard prefix, return command and arguments in an array. Vars are split by commas
-    const command = args.shift() //Removes first var from args (the command) and stores it in const 'command'
+
+    const index = message.content.indexOf(' ') //Get index of first space in message. If none, return -1
+    var command = null
+    var args = []
+    if(index == -1){ //If no spaces in message, just get command
+        command = message.content.slice(config.prefix.length)
+    }
+    else{ //Else, command is everything after prefix and before first space. Args are everything after first space, split by ', '
+        command = message.content.slice(config.prefix.length, index)
+        args = message.content.slice(1 + index).split(', ')
+    }
 
     if(!bot.commands.has(command)) {
         message.channel.send(`I don't seem to know '!${command}'. Check out '!help' to see what I can do.`)
