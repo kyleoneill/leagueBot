@@ -5,8 +5,16 @@ module.exports = {
     name:'setName',
     async execute(message, args) {
         try {
-            if(!args) {
-                message.channel.send(`You're missing arguments. You need to give me your summoner name.`)
+            if(!args.length) {
+                var name = await this.botDatabase.get(message)
+                if(name != null) {
+                    message.channel.send(`Your current username is set to '${name}'.`)
+                    return
+                }
+                else{
+                    message.channel.send(`You have not set a username.`)
+                    return
+                }
             }
             var name = args[0]
             //var truncatedInput = args[1].substring(0, 500)
