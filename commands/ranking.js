@@ -3,16 +3,8 @@ const common = require('../src/common.js')
 module.exports = {
     name:'ranking',
     async execute(message, args) {
-        var summonerName = null
-        var DBsummonerName = null
-        DBsummonerName = await this.botDatabase.get(message)
-        if(args.length) {
-            summonerName = args[0]
-        }
-        else if(!args.length && DBsummonerName != null) {
-            summonerName = DBsummonerName
-        }
-        else{
+        var summonerName = args[0] || await this.botDatabase.get(message) //sumName = args[0] if it exists, otherwise it's botDatabase.get(message)
+        if (summonerName == null) {
             message.channel.send(`You need to give me a username to look up, like '!ranking teemo4lyfe'. You can also set your default summoner name with '!setName'.`)
             return
         }
