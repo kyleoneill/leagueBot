@@ -19,16 +19,16 @@ module.exports = {
             var summonerName = null
             var DBsummonerName = null
             DBsummonerName = await this.botDatabase.get(message)
-            if(!args.length && DBsummonerName == null) {
-                message.channel.send(`You need to specify a summoner to check. See '!help' for details. You can also set your default summoner name with '!setName'.`)
-                return
+            if(args.length) {
+                summonerName = args[0]
             }
-            if(!args.length && DBsummonerName != null) {
+            else if(!args.length && DBsummonerName != null) {
                 summonerName = DBsummonerName
             }
-            else(
-                summonerName = args[0]
-            )
+            else{
+                message.channel.send(`You need to give me a username to look up, like '!ranking ezreal-is-gay'. You can also set your default summoner name with '!setName'.`)
+                return
+            }
             //List of champions. Sorted by their id, contains their name
             var championList = champion.data
             //List of info about a summoner. Input is their username, output here is their id
