@@ -28,8 +28,8 @@ bot.on('ready', async () => {
         botLog(`~~~~~Bot Started~~~~~`)
         botLog(`Logged in as: ${bot.user.username}`)
         await userDB.start()
-        botLog(`Attempting to email log file`)
-        await common.emailLog()
+        // botLog(`Attempting to email log file`)
+        // await common.emailLog()
     }
     catch(e){
         botLog(e)
