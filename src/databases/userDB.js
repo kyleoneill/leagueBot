@@ -1,45 +1,39 @@
 const common = require('../common')
 const timeStamp = common.getTime
 const botLog = common.botLog
-const sqlite = require('sqlite3').verbose()
-const db = new sqlite.Database('./database.sqlite')
+const sqlite = require('sqlite')
+var db = null
 
 class dbFunctions {
-    start() {
+    async start() {
         try{
-            db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name = 'users'`, (error, row) => {
-                if(row !== undefined) {
-                    botLog(`SQLite table exists.`)
-                }
-                else {
-                    botLog(`SQLite table does not exist, creating a new table.`)
-                    db.run("CREATE TABLE users(username TEXT, favChamp TEXT)")
-                }
-            })
+            db = await sqlite.open('./database.sqlite')
+            var row = await db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name = 'users'`)
+            if(row !== undefined) {
+                botLog(`SQLite table exists.`)
+            }
+            else {
+                botLog(`SQLite table does not exist, creating a new table.`)
+                await db.run("CREATE TABLE users(username TEXT, summonerName TEXT)")
+            }
         }
         catch(e) {
             botLog(`${e}`)
         }
     }
-    async set(message, champName) {
+    async set(message, summonerName) {
         try{
-            await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${escape(champName)}')`).run()
+            //await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${summonerName}')`).run()
+            db.run(`INSERT OR REPLACE INTO users (username, summonerName) VALUES ('${message.author.username}', '${summonerName}')`)
         }
         catch(e) {
             botLog(`${e}`)
         }
     }
-    async get(message, callback) {
+    async get(message) {
         try {
-            //var info
-            await db.get(`SELECT * FROM users WHERE username == '${message.author.username}'`, async (error, row) => {
-                try{
-                    callback(row.favChamp)
-                }
-                catch(e){
-                    callback(null)
-                }
-            })
+            var row = await db.get(`SELECT summonerName FROM users WHERE username = '${message.author.username}'`)
+            return row.summonerName
         }
         catch(e) {
             botLog(`${e}`)
