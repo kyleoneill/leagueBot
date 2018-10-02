@@ -14,7 +14,7 @@ class dbFunctions {
             }
             else {
                 botLog(`SQLite table does not exist, creating a new table.`)
-                await db.run("CREATE TABLE users(username TEXT, summonerName TEXT)")
+                await db.run("CREATE TABLE users(username TEXT, guildname TEXT, summonerName TEXT, PRIMARY KEY(username, guildname))")
             }
         }
         catch(e) {
@@ -24,7 +24,7 @@ class dbFunctions {
     async set(message, summonerName) {
         try{
             //await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${summonerName}')`).run()
-            db.run(`INSERT OR REPLACE INTO users (username, summonerName) VALUES ('${message.author.username}', '${summonerName}')`)
+            db.run(`INSERT OR REPLACE INTO users (username, guildname, summonerName) VALUES ('${message.author.username}','${message.channel.guild}', '${summonerName}')`)
         }
         catch(e) {
             botLog(`${e}`)
@@ -32,7 +32,7 @@ class dbFunctions {
     }
     async get(message) {
         try {
-            var row = await db.get(`SELECT summonerName FROM users WHERE username = '${message.author.username}'`)
+            var row = await db.get(`SELECT summonerName FROM users WHERE username = '${message.author.username}' AND guildname = '${message.channel.guild}'`)
             return row.summonerName
         }
         catch(e) {

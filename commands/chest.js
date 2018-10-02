@@ -16,14 +16,23 @@ module.exports = {
     name:'chest',
     async execute(message, args) {
         try{
-            if(!args.length) {
-                message.channel.send(`You need to specify a summoner to check. See '!help' for details.`)
+            var summonerName = null
+            var DBsummonerName = null
+            DBsummonerName = await this.botDatabase.get(message)
+            if(!args.length && DBsummonerName == null) {
+                message.channel.send(`You need to specify a summoner to check. See '!help' for details. You can also set your default summoner name with '!setName'.`)
                 return
             }
+            if(!args.length && DBsummonerName != null) {
+                summonerName = DBsummonerName
+            }
+            else(
+                summonerName = args[0]
+            )
             //List of champions. Sorted by their id, contains their name
             var championList = champion.data
             //List of info about a summoner. Input is their username, output here is their id
-            var summonerInfoList = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${args[0]}?api_key=${this.leagueAPI}`)
+            var summonerInfoList = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${this.leagueAPI}`)
             //List of mastery info for each champion for a given summoner. Champions are identified by id, no name
             var masteryList = await getRequest(`https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${summonerInfoList.id}?api_key=${this.leagueAPI}`)
             var chestChampionsID = []
@@ -41,7 +50,7 @@ module.exports = {
                 }
             }
             if(!chestChampionsName.length){
-                message.channel.send(`Either you have every chest or something went wrong. See the log for details.`)
+                message.channel.send(`Either you have every chest, no champions, or something went wrong. See the log for details.`)
             }
             else if(chestChampionsName.length > 7){
                 var chestChampionsNameShort = []
