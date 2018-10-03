@@ -17,8 +17,17 @@ module.exports = {
 
             message.channel.send(`Ranking for ${summonerInfo.name}:`)
             leaguePositions.forEach(position => {
+                var queueRaw = position.queueType
+                var queue = null
+                if(queueRaw == "RANKED_FLEX_SR") {
+                    queue = "Ranked Flex"
+                }
+                else if(queueRaw == "RANKED_SOLO_5x5") {
+                    queue = "Ranked Solo/Duo"
+                }
+                var tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
                 const winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
-                message.channel.send(`Queue Type: ${position.queueType}\nTier: ${position.tier}\nRank: ${position.rank}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
+                message.channel.send(`Queue Type: ${queue}\nTier: ${tier}\nRank: ${position.rank}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
             });
         }
         catch(e) {
