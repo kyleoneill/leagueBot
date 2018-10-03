@@ -3,7 +3,7 @@ const common = require('../src/common.js')
 module.exports = {
     name:'ranking',
     async execute(message, args) {
-        var summonerName = args[0] || await this.botDatabase.get(message) //sumName = args[0] if it exists, otherwise it's botDatabase.get(message)
+        var summonerName = args[0] || await this.botDatabase.get(message); //sumName = args[0] if it exists, otherwise it's botDatabase.get(message)
         if (summonerName == null) {
             message.channel.send(`You need to give me a username to look up, like '!ranking teemo4lyfe'. You can also set your default summoner name with '!setName'.`)
             return
@@ -18,7 +18,7 @@ module.exports = {
             message.channel.send(`Ranking for ${summonerInfo.name}:`)
             leaguePositions.forEach(position => {
                 const winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
-                message.channel.send(`Queue Type: ${position.queueType}\nRank: ${position.tier}\nLeague Name: ${position.leagueName}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
+                message.channel.send(`Queue Type: ${position.queueType}\nTier: ${position.tier}\nRank: ${position.rank}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
             });
         }
         catch(e) {

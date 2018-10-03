@@ -5,7 +5,7 @@ module.exports = {
         var index = 1
         var msg = `My commands include...\n`
         help.forEach(descrption => {
-            msg += `\n${index}: ${descrption}\n`
+            msg += `${index}: ${descrption}\n`
             index++
         })
         message.channel.send(`${msg}`)
