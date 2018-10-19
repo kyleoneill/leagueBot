@@ -11,6 +11,12 @@ module.exports = {
     httpsGetAsync: function(url) {
         return new Promise((resolve, reject) => {
             https.get(url, (response) => {
+                let statusCode = response.statusCode.toString()
+                if(statusCode.charAt(0) != 2){
+                    module.exports.botLog(`Status code ${statusCode} from API call.`)
+                    reject()
+                    return
+                }
                 let data = ''
                 response.on('data', (chunk) => {
                     data += chunk
@@ -85,8 +91,7 @@ module.exports = {
             if (error) {
             module.exports.botLog(`Error Sending Email: ${error}`)
             } else {
-            console.log('Email sent: ' + info.response)
-            module.exports.botLog(`Log file emailed successfully`)
+            module.exports.botLog(`Email sent: ${info.response}\nLog file emailed successfully`)
             }
         })
     }
