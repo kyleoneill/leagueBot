@@ -7,13 +7,13 @@ module.exports = {
     async execute(message, args) {
         try{
             var championList = champion.data
-            var freeListPost = await getRequest(`https://na1.api.riotgames.com/lol/platform/v3/champions?freeToPlay=true&api_key=${this.leagueAPI}`)
-            var freeChampions = freeListPost.champions
+            var freeListPost = await getRequest(`https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${this.leagueAPI}`)
+            var freeChampions = freeListPost.freeChampionIds
     
             var output = []
             for(var i in freeChampions) {
                 for(var j in championList) {
-                    if(freeChampions[i].id == championList[j].key) {
+                    if(freeChampions[i] == championList[j].key) {
                         output.push(championList[j].name)
                         if(output.length == freeChampions.length){
                             var reply = ''
