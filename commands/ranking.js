@@ -16,22 +16,39 @@ module.exports = {
             var leaguePositions = await common.httpsGetAsync(rankingsURL)
 
             message.channel.send(`Ranking for ${summonerInfo.name}:`)
+            var flex = new Object()
+            var solo = new Object()
             leaguePositions.forEach(position => {
-                var queueRaw = position.queueType
-                var queue = null
-                if(queueRaw == "RANKED_FLEX_SR") {
-                    queue = "Ranked Flex"
+                if(position.queueType == "RANKED_FLEX_SR"){
+                    flex.queue = "Ranked Flex"
+                    flex.tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
+                    flex.winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
+                    flex.rank = position.rank
+                    flex.LP = position.leaguePoints
                 }
-                else if(queueRaw == "RANKED_SOLO_5x5") {
-                    queue = "Ranked Solo/Duo"
+                else if(position.queueType == "RANKED_SOLO_5x5"){
+                    solo.queue = "Ranked Solo/Duo"
+                    solo.tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
+                    solo.winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
+                    solo.rank = position.rank
+                    solo.LP = position.leaguePoints
                 }
-                var tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
-                const winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
-                message.channel.send(`Queue Type: ${queue}\nTier: ${tier}\nRank: ${position.rank}\nLP: ${position.leaguePoints}\nRecent Winrate: ${winRate}%`)
             });
+            if(flex.queue != undefined){
+                message.channel.send(`Queue Type: ${flex.queue}\nTier: ${flex.tier}\nRank: ${flex.rank}\nLP: ${flex.LP}\nRecent Winrate: ${flex.winRate}%`)
+            }
+            else{
+                message.channel.send(`Summoner ${summonerName} is not ranked in Ranked Flex.`)
+            }
+            if(solo.queue != undefined){
+                message.channel.send(`Queue Type: ${solo.queue}\nTier: ${solo.tier}\nRank: ${solo.rank}\nLP: ${solo.LP}\nRecent Winrate: ${solo.winRate}%`)
+            }
+            else{
+                message.channel.send(`Summoner ${summonerName} is not ranked in Ranked Solo/Duo.`)
+            }
         }
         catch(e) {
-            message.channel.send(`Something seems to have gone wrong, are you sure the username '${summonerName}' exists?\nCheck the log for details.`)
+            message.channel.send(`Something seems to have gone wrong, are you sure the summoner '${summonerName}' exists?\nCheck the log for details.`)
             common.botLog(`${e}`)
         }
     }
