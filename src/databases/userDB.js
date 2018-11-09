@@ -33,7 +33,12 @@ class dbFunctions {
     async get(message) {
         try {
             var row = await db.get(`SELECT summonerName FROM users WHERE username = '${message.author.username}' AND guildname = '${message.channel.guild}'`)
-            return row.summonerName
+            if(!row){
+                return null
+            }
+            else{
+                return row.summonerName
+            }
         }
         catch(e) {
             botLog(`${e}`)
