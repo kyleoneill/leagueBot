@@ -44,7 +44,7 @@ module.exports = {
             var chestChampionsName = []
             for(var i in chestChampionsID){
                 for(var j in championList){
-                    if(i == championList[j].key){
+                    if(chestChampionsID[i] == championList[j].key){
                         chestChampionsName.push(championList[j].name)
                     }
                 }
@@ -56,11 +56,13 @@ module.exports = {
                 var chestChampionsNameShort = []
                 var done = false
                 var index = 0
-                while(!done){
+                while(!done && chestChampionsName.length){
                     if(index == 7){
                         done = true
                     }
-                    var nextChamp = chestChampionsName[Math.floor(Math.random() * chestChampionsName.length)]
+                    var rand = Math.floor(Math.random() * chestChampionsName.length)
+                    var nextChamp = chestChampionsName[rand]
+                    chestChampionsName.splice(rand, 1)
                     if(!chestChampionsNameShort.includes(nextChamp)){
                         chestChampionsNameShort.push(nextChamp)
                         index++
