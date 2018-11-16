@@ -52,7 +52,7 @@ module.exports = {
             if(!chestChampionsName.length){
                 message.channel.send(`Either you have every chest, no champions, or something went wrong. See the log for details.`)
             }
-            else if(chestChampionsName.length > 7){
+            else if(chestChampionsName.length > 8){
                 var chestChampionsNameShort = []
                 var done = false
                 var index = 0
