@@ -18,7 +18,7 @@ module.exports = {
         try{
             var summonerName = null
             var DBsummonerName = null
-            DBsummonerName = await this.botDatabase.get(message)
+            DBsummonerName = await this.botDatabase.getName(message)
             if(args.length) {
                 summonerName = args[0]
             }
