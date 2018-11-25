@@ -27,6 +27,7 @@ class dbFunctions {
             var summonerInfo = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${key}`)
             //await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${summonerName}')`).run()
             db.run(`INSERT OR REPLACE INTO users (username, profileIconId, accountId, id, guildname, summonerName) VALUES ('${message.author.username}','${summonerInfo.profileIconId}','${summonerInfo.accountId}','${summonerInfo.id}','${message.channel.guild}', '${summonerName}')`)
+            botLog(`User ${message.author.username} updated their db information`)
         }
         catch(e) {
             botLog(`${e}`)

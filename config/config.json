@@ -6,7 +6,6 @@
         ":regional_indicator_n: :regional_indicator_o: :regional_indicator_o: :regional_indicator_b: :regional_indicator_s:",
         "You people really fizz me off."],
     "help": [
-        "Arguments are broken up by a comma followed by a space, for example: !favChamp, set, lee sin",
         "!build [champ] - I'll give you a build for the input champion.",
         "!random - I'll give you a random champion to play.",
         "!ranking [username] - I'll look up the ranking information for the given summoner.",

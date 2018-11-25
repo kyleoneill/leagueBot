@@ -12,7 +12,6 @@ module.exports = {
                     return
                 }
                 else{
-                    var accountInfo = await this.botDatabase.getAccountInfo(message)
                     message.channel.send(`Your name is set to '${name}'.`)
                     //Debug - common.botLog(`SUMMONERNAME: ${accountInfo.summonerName}\nPROFILEICONID: ${accountInfo.profileIconId}\nACCOUNTID: ${accountInfo.accountId}\nID: ${accountInfo.id}`)
                 }
