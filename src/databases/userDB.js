@@ -22,7 +22,7 @@ class dbFunctions {
             botLog(`${e}`)
         }
     }
-    async setName(message, summonerName, key) {
+    async setSummoner(message, summonerName, key) {
         try{
             var summonerInfo = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${key}`)
             //await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${summonerName}')`).run()

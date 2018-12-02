@@ -4,7 +4,8 @@
         "My mamma can play a game better than that, and she's a machine!",
         "There goes a saying in the Field of Justice: git gud scrub",
         ":regional_indicator_n: :regional_indicator_o: :regional_indicator_o: :regional_indicator_b: :regional_indicator_s:",
-        "You people really fizz me off."],
+        "You people really fizz me off."
+    ],
     "help": [
         "!build [champ] - I'll give you a build for the input champion.",
         "!random - I'll give you a random champion to play.",
@@ -14,5 +15,12 @@
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!free - I'll list the free champions for this week.",
         "!chest [summoner] - Displays the champions that can earn mastery chests."
+    ],
+    "usernames": [
+        "T33m0isKool",
+        "GarenRocks",
+        "TickleMeElmo",
+        "KayleSmoothie",
+        "DaddyGraves"
     ]
 }
