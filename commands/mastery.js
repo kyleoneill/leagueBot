@@ -17,10 +17,16 @@ module.exports = {
                 return
             }
             else{
-                const championName = args[0].toProper()
+                var championName
+                if(args[0] == "Dr. Mundo"){
+                    championName = "drmundo"
+                }
+                else{
+                    championName = common.titleCase(args[0])
+                }
                 var championId
                 for(var i in champion.data){
-                    if(i.toLowerCase() == championName.toLowerCase()){
+                    if(i.toLowerCase() == championName.replace(" ","").toLowerCase()){
                         championId = champion.data[i].key
                     }
                 }
