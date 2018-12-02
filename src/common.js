@@ -1,8 +1,17 @@
 const fs = require('fs')
 const https = require('https')
-const nodemailer = require('nodemailer')
+const {usernames} = require('../config/config.json')
 const auth = require('../config/auth.json')
 const encoding = 'utf8'
+
+if (!String.prototype.toProper) {
+    Object.defineProperty(String.prototype, 'toProper', {
+        value: function() {
+            return this.charAt(0).toUpperCase() + this.substr(1)
+        }
+    })
+}
+
 module.exports = {
     getTime: function() {
         var timeStamp = (new Date()).toLocaleString('en-US')
@@ -14,8 +23,8 @@ module.exports = {
                 let statusCode = response.statusCode.toString()
                 if(statusCode.charAt(0) != 2){
                     module.exports.botLog(`Status code ${statusCode} from API call.`)
-                    reject()
-                    return
+                    reject(statusCode)
+                    return undefined
                 }
                 let data = ''
                 response.on('data', (chunk) => {
@@ -59,40 +68,7 @@ module.exports = {
             console.log(`${module.exports.getTime()}: Error saving log file.\n${e}`)
         }
     },
-    emailLog: function(){
-        const path = 'log.txt'
-        var emailBody = null
-        if(!fs.existsSync(path)){
-            fs.writeFileSync(path, '', encoding, (err) => {
-                if(err) throw err
-            })
-            emailBody = "Log file not found."
-        }
-        else {
-            emailBody = fs.readFileSync(path, 'utf8')
-        }
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-            user: auth.botEmail,
-            pass: auth.botPass
-            }
-        })
-        
-        var mailOptions = {
-            from: auth.botEmail,
-            to: auth.myEmail,
-            subject: 'leagueBot Log',
-            text: `Automatically generated email from leagueBot`,
-            attachments: {filename:'log.txt',path:'log.txt'}
-        }
-        
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-            module.exports.botLog(`Error Sending Email: ${error}`)
-            } else {
-            module.exports.botLog(`Email sent: ${info.response}\nLog file emailed successfully`)
-            }
-        })
+    noName: function() {
+        return(`You have not set a username. Set one like this: !summoner ${usernames[Math.floor(Math.random() * usernames.length)]}`)
     }
 }

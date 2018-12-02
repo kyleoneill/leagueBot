@@ -26,7 +26,7 @@ module.exports = {
                 summonerName = DBsummonerName
             }
             else{
-                message.channel.send(`You need to give me a username to look up, like '!ranking ezreal-is-gay'. You can also set your default summoner name with '!setName'.`)
+                message.channel.send(`You need to give me a username to look up, like '!ranking ezreal-is-gay'. You can also set a default summoner name to use.`)
                 return
             }
             //List of champions. Sorted by their id, contains their name
