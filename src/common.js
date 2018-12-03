@@ -27,6 +27,12 @@ module.exports = {
         // Directly return the joined string
         return splitStr.join(' '); 
     },
+    cleanName: function(str){
+        str = str.replace(" ","")
+        str = str.replace(".", "")
+        str = str.replace("'", "")
+        return str.toLowerCase()
+    },
     httpsGetAsync: function(url) {
         return new Promise((resolve, reject) => {
             https.get(url, (response) => {

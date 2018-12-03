@@ -17,26 +17,22 @@ module.exports = {
                 return
             }
             else{
-                var championName
-                if(args[0] == "Dr. Mundo"){
-                    championName = "drmundo"
-                }
-                else{
-                    championName = common.titleCase(args[0])
-                }
+                var championName = common.cleanName(args[0])
+                var printableChampionName
                 var championId
                 for(var i in champion.data){
-                    if(i.toLowerCase() == championName.replace(" ","").toLowerCase()){
+                    if(i.toLowerCase() == championName){
                         championId = champion.data[i].key
+                        printableChampionName = champion.data[i].name
                     }
                 }
                 const url = `https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${accountInfo.id}/by-champion/${championId}?api_key=${this.leagueAPI}`
                 const masteryData = await getRequest(url).catch((error) => null)
                 if (masteryData != null) {
-                    message.channel.send(`Your mastery information for ${championName}:\nMastery Level: ${masteryData.championLevel}\nChest Earned: ${masteryData.chestGranted}\nMastery Points: ${masteryData.championPoints}\nMastery Points until Next Level: ${masteryData.championPointsUntilNextLevel}`)
+                    message.channel.send(`Your mastery information for ${printableChampionName}:\nMastery Level: ${masteryData.championLevel}\nChest Earned: ${masteryData.chestGranted}\nMastery Points: ${masteryData.championPoints}\nMastery Points until Next Level: ${masteryData.championPointsUntilNextLevel}`)
                 } 
                 else {
-                    message.channel.send(`You have no mastery data for ${championName}.`)
+                    message.channel.send(`You have no mastery data for ${printableChampionName}.`)
                 }
             }
         }
