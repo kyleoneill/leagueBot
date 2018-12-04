@@ -37,7 +37,7 @@ module.exports = {
             }
         }
         catch(e) {
-            common.botLog(`${e}`)
+            common.botLog(e)
             message.channel.send(`Something wrong seems to have happened, check the log.`)
         }
     }

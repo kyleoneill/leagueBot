@@ -5,25 +5,23 @@ module.exports = {
     name:'summoner',
     async execute(message, args) {
         try {
-            if(!args.length) {
-                var name = await this.botDatabase.getName(message)
-                if(name == null){
-                    message.channel.send(common.noName())
-                    return
-                }
-                else{
-                    message.channel.send(`Your name is set to '${name}'.`)
-                }
+            var summonerName
+            if(!args.length){
+                summonerName = await this.botDatabase.getName(message)
             }
             else{
-                var name = args[0]
-                //var truncatedInput = args[1].substring(0, 500)
-                await this.botDatabase.setSummoner(message, name, this.leagueAPI)
-                message.channel.send(`I've set your summoner name to be '${name}'.`)
+                summonerName = args[0]
+            }
+            if(summonerName == undefined){
+                message.channel.send(common.noName())
+                return
+            }
+            else{
+                //summoner command goes here
             }
         }
         catch(e) {
-            common.botLog(`${e}`)
+            common.botLog(e)
             message.channel.send(`Something wrong seems to have happened, check the log.`)
         }
     }
