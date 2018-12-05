@@ -38,28 +38,28 @@ module.exports = {
                         queue: "Unranked",
                         tier: "Unranked",
                         winRate: "Unranked",
-                        rank: "Unranked",
+                        rank: "",
                         LP: "Unranked"
                     }
                     var solo = {
                         queue: "Unranked",
                         tier: "Unranked",
                         winRate: "Unranked",
-                        rank: "Unranked",
+                        rank: "",
                         LP: "Unranked"
                     }
                     leaguePositions.forEach(position => {
                         if(position.queueType == "RANKED_FLEX_SR"){
                             flex.queue = "Flex"
                             flex.tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
-                            flex.winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
+                            flex.winRate = (((position.wins / (position.wins + position.losses)) * 100).toFixed(2)) + "%"
                             flex.rank = position.rank
                             flex.LP = position.leaguePoints
                         }
                         else if(position.queueType == "RANKED_SOLO_5x5"){
                             solo.queue = "Ranked Solo/Duo"
                             solo.tier = position.tier.charAt(0) + position.tier.substr(1).toLowerCase()
-                            solo.winRate = ((position.wins / (position.wins + position.losses)) * 100).toFixed(2)
+                            solo.winRate = (((position.wins / (position.wins + position.losses)) * 100).toFixed(2)) + "%"
                             solo.rank = position.rank
                             solo.LP = position.leaguePoints
                         }
@@ -75,12 +75,12 @@ module.exports = {
                         fields: [
                             {
                                 name: "Solo/Duo",
-                                value: `Tier: ${solo.tier} ${solo.rank}\nLP: ${solo.LP}\nWinrate: ${solo.winRate}%`,
+                                value: `Tier: ${solo.tier} ${solo.rank}\nLP: ${solo.LP}\nWinrate: ${solo.winRate}`,
                                 inline: true,
                             },
                             {
                                 name: "Flex 5x5",
-                                value: `Tier: ${flex.tier} ${flex.rank}\nLP: ${flex.LP}\nWinrate: ${flex.winRate}%`,
+                                value: `Tier: ${flex.tier} ${flex.rank}\nLP: ${flex.LP}\nWinrate: ${flex.winRate}`,
                                 inline: true
                             }
                         ]
