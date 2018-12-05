@@ -1,4 +1,5 @@
 config/auth.json
+config/profileicon/*.png
 node_modules
 .vs/
 log.txt

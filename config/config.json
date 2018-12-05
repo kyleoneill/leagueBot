@@ -9,8 +9,8 @@
     "help": [
         "!build [champ] - I'll give you a build for the input champion.",
         "!random - I'll give you a random champion to play.",
-        "!ranking [username] - I'll look up the ranking information for the given summoner.",
-        "!summoner [summonerName] - I'll give you information on your summoner! Make sure to set your name first.",
+        "setName [summoner] - Sets your summoner name.",
+        "!summoner [summonerName] - I'll give you information about the input summoner, or yours if I know it.",
         "!win - Sweet sweet victory.",
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!free - I'll list the free champions for this week.",
