@@ -84,7 +84,7 @@ module.exports = {
                                 inline: true
                             }
                         ]
-                    },files:[{attachment: `config/profileicon/${summonerInfo.profileIconId}.png`, name: 'icon.png'}]})
+                    },files:[{attachment: `config/photos/profileicon/${summonerInfo.profileIconId}.png`, name: 'icon.png'}]})
                 }
             }
         }
