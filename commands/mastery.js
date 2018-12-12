@@ -26,32 +26,37 @@ module.exports = {
                         printableChampionName = champion.data[i].name
                     }
                 }
-                const url = `https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${accountInfo.id}/by-champion/${championId}?api_key=${this.leagueAPI}`
-                const masteryData = await getRequest(url).catch((error) => null)
-                if (masteryData != null) {
-                    message.channel.send({embed: {
-                        color: Math.floor(Math.random() * 16777214) + 1,
-                        title: printableChampionName,
-                        thumbnail: {
-                            "url": `attachment://icon.png`
-                        },
-                        //description: `Summoner ${summonerInfo.summonerName}`,
-                        fields: [
-                            {
-                                name: "Mastery",
-                                value: `Mastery Level: ${masteryData.championLevel}\nChest Earned: ${masteryData.chestGranted.toString().toProper()}`,
-                                inline: true
+                if(championId != undefined){
+                    const url = `https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${accountInfo.id}/by-champion/${championId}?api_key=${this.leagueAPI}`
+                    const masteryData = await getRequest(url).catch((error) => null)
+                    if (masteryData != null) {
+                        message.channel.send({embed: {
+                            color: Math.floor(Math.random() * 16777214) + 1,
+                            title: printableChampionName,
+                            thumbnail: {
+                                "url": `attachment://icon.png`
                             },
-                            {
-                                name: "Mastery Points",
-                                value: `Mastery Points: ${masteryData.championPoints}\nMastery Points Until Next Level: ${masteryData.championPointsUntilNextLevel}`,
-                                inline: true
-                            }
-                        ]
-                    }, files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}]})
-                } 
-                else {
-                    message.channel.send(`You have no mastery data for ${printableChampionName}.`)
+                            //description: `Summoner ${summonerInfo.summonerName}`,
+                            fields: [
+                                {
+                                    name: "Mastery",
+                                    value: `Mastery Level: ${masteryData.championLevel}\nChest Earned: ${masteryData.chestGranted.toString().toProper()}`,
+                                    inline: true
+                                },
+                                {
+                                    name: "Mastery Points",
+                                    value: `Mastery Points: ${masteryData.championPoints}\nMastery Points Until Next Level: ${masteryData.championPointsUntilNextLevel}`,
+                                    inline: true
+                                }
+                            ]
+                        }, files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}]})
+                    } 
+                    else {
+                        message.channel.send(`You have no mastery data for ${printableChampionName}.`)
+                    }
+                }
+                else{
+                    message.channel.send(`I don't know ${championName}, are you sure that this champion exists?`)
                 }
             }
         }
