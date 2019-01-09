@@ -8,7 +8,7 @@
     ],
     "help": [
         "!build [champ] - I'll give you a build for the input champion.",
-        "!random - I'll give you a random champion to play.",
+        "!random [lane] - I'll give you a random champion to play, you can also give the command a specific lane to select for.",
         "setName [summoner] - Sets your summoner name.",
         "!summoner [summonerName] - I'll give you information about the input summoner, or yours if I know it.",
         "!win - Sweet sweet victory.",
