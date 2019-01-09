@@ -32,7 +32,7 @@ module.exports = {
                     if (masteryData != null) {
                         message.channel.send({embed: {
                             color: Math.floor(Math.random() * 16777214) + 1,
-                            title: printableChampionName,
+                            title: `${printableChampionName} - ${message.author.username}`,
                             thumbnail: {
                                 "url": `attachment://icon.png`
                             },

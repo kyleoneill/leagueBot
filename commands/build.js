@@ -10,8 +10,8 @@ module.exports = {
                 message.channel.send(`You need to tell me which champion to search for, like '!build garen'.`)
             }
             else {
-                var champ = args[0].toLowerCase()
-                var build = buildList[champ]
+                var userInput = args[0].toLowerCase()
+                var build = buildList[userInput]
                 var itemCounter = 1
                 var msg = `Your build is going to be...`
                 build.forEach(item => {
@@ -22,7 +22,7 @@ module.exports = {
             }
         }
         catch(e) {
-            message.channel.send(`oWo wats dis, ${champ} doesn't seem to be anybody I know.\nSee log for details.`)
+            message.channel.send(`oWo wats dis, ${userInput} doesn't seem to be anybody I know.\nSee log for details.`)
             common.botLog(`${e}`)
         }
     }
