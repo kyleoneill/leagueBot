@@ -35,6 +35,12 @@ module.exports = {
                     var champListJungle = lanesList['jungle']
                     messageText += getRandomChampion(champListJungle).toProper()
                     break
+                case "lane":
+                    laneExists = false
+                    lanes = ["top", "mid", "bot", "support", "jungle"]
+                    randomLane = lanes[Math.floor(Math.random() * lanes.length)]
+                    messageText = `You'll be playing ${randomLane.toProper()} this game.`
+                    break
                 default:
                     laneExists = false
                     messageText = "That lane doesn't exist. Please use 'top', 'mid', 'bot', 'support', and 'jungle'."
