@@ -7,7 +7,16 @@ const encoding = 'utf8'
 if (!String.prototype.toProper) {
     Object.defineProperty(String.prototype, 'toProper', {
         value: function() {
-            return this.charAt(0).toUpperCase() + this.substr(1)
+            var traditionalToProper = this.charAt(0).toUpperCase() + this.substr(1)
+            if(traditionalToProper.indexOf(' ') > -1){
+                var index = traditionalToProper.indexOf(' ')
+                traditionalToProper = traditionalToProper.substr(0, index) + ' ' + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2)
+            }
+            if(traditionalToProper.indexOf(`'`) > -1){
+                var index = traditionalToProper.indexOf(`'`)
+                traditionalToProper = traditionalToProper.substr(0, index) + `'` + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2)
+            }
+            return traditionalToProper
         }
     })
 }
