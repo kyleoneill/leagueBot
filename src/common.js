@@ -94,6 +94,6 @@ module.exports = {
         }
     },
     noName: function() {
-        return(`You have not set a username. Set one like this: !summoner ${usernames[Math.floor(Math.random() * usernames.length)]}`)
+        return(`You have not set a username. Set one like this: !setName ${usernames[Math.floor(Math.random() * usernames.length)]}`)
     }
 }
