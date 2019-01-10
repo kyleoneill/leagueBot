@@ -8,10 +8,10 @@
     ],
     "help": [
         "!build [champ] - I'll give you a build for the input champion.",
-        "!random [lane] - I'll give you a random champion to play, you can also give the command a specific lane to select for.",
-        "setName [summoner] - Sets your summoner name.",
+        "!random [lane] - I'll give you a random champion to play. You can also give the command a specific lane to select for.",
+        "!setName [summoner] - I'll remember your summoner name for my other commands.",
         "!summoner [summonerName] - I'll give you information about the input summoner, or yours if I know it.",
-        "!win - Sweet sweet victory.",
+        "!win - Sweet, sweet victory.",
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!free - I'll list the free champions for this week.",
         "!chest [summoner] - Displays the champions that can earn mastery chests.",

@@ -4,7 +4,7 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 ## LeagueBot has the following commands
 1. `!help` - Lists all of the commands and what they are used for.
 2. `!build [champion]` - Lists the most popular build for the input champion.
-3. `setName [summoner]` - Sets your summoner name.
+3. `!setName [summoner]` - Sets your summoner name.
 4. `!summoner [SummonerName]` - Provides information about a summoner, such as ranking.
 5. `!random [lane]` - Gives you a random champion to play, you can also give the command a specific lane to select for.
 6. `!lose` - When you lose, this command will ~~remind you that you're garbage~~ help raise your spirits.
