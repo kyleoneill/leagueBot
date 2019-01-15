@@ -27,7 +27,7 @@ bot.on('ready', async () => {
     try{
         botLog(`~~~~~Bot Started~~~~~`)
         botLog(`Logged in as: ${bot.user.username}`)
-        await bot.user.setActivity("Playing Garen jungle");
+        await bot.user.setActivity("Garen jungle");
         await userDB.start()
     }
     catch(e){
