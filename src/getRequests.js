@@ -67,5 +67,15 @@ module.exports = {
             var ranking = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/league/v4/positions/by-summoner/${summonerID}?api_key=${leagueKey}`)
             return ranking
         }
+    },
+    //SPECTATOR-V4 - /lol/spectator/v4/active-games/by-summoner/{encryptedSummonerId}
+    getInfoAboutCurrentGame: async function(summonerID) {
+        if(summonerID == null) {
+            return null
+        }
+        else {
+            var gameInfo = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerID}?api_key=${leagueKey}`)
+            return gameInfo
+        }
     }
 }
