@@ -15,3 +15,7 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 
 ## Misc
 Commands that take `[summoner]` as an argument (`!ranking` and `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
+
+LeagueBot isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games
+or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are
+trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.

@@ -1,6 +1,6 @@
 const common = require('../src/common')
 const getTime = common.getTime
-const getRequest = common.httpsGetAsync
+const getRequest = require('../src/getRequests')
 const champion = require('../config/champion.json')
 
 module.exports = {
@@ -27,8 +27,7 @@ module.exports = {
                     }
                 }
                 if(championId != undefined){
-                    const url = `https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${accountInfo.id}/by-champion/${championId}?api_key=${this.leagueAPI}`
-                    const masteryData = await getRequest(url).catch((error) => null)
+                    const masteryData = await getRequest.getSpecificChampionMastery(accountInfo.id, championId)
                     if (masteryData != null) {
                         message.channel.send({embed: {
                             color: Math.floor(Math.random() * 16777214) + 1,
@@ -56,7 +55,7 @@ module.exports = {
                     }
                 }
                 else{
-                    message.channel.send(`I don't know ${championName}, are you sure that this champion exists?`)
+                    message.channel.send(`I don't know ${args[0]}, are you sure that this champion exists?`)
                 }
             }
         }

@@ -1,6 +1,6 @@
 const common = require('../src/common.js')
-const getRequest = common.httpsGetAsync
 const champion = require('../config/champion.json')
+const getRequest = require('../src/getRequests')
 
 function createMessage(arr) {
     var index = 0
@@ -31,49 +31,55 @@ module.exports = {
             }
             //List of champions. Sorted by their id, contains their name
             var championList = champion.data
-            //List of info about a summoner. Input is their username, output here is their id
-            var summonerInfoList = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${this.leagueAPI}`)
-            //List of mastery info for each champion for a given summoner. Champions are identified by id, no name
-            var masteryList = await getRequest(`https://na1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/${summonerInfoList.id}?api_key=${this.leagueAPI}`)
-            var chestChampionsID = []
-            masteryList.forEach(champMastery => {
-                if(champMastery.chestGranted == false){
-                    chestChampionsID.push(champMastery.championId)
-                }
-            })
-            var chestChampionsName = []
-            for(var i in chestChampionsID){
-                for(var j in championList){
-                    if(chestChampionsID[i] == championList[j].key){
-                        chestChampionsName.push(championList[j].name)
+            var summonerInfoList = await getRequest.getSummonerByName(summonerName)
+            var masteryList = null
+            if(summonerInfoList != null) {
+                masteryList = await getRequest.getChampionMasteryBySummonerID(summonerInfoList.id)
+            }
+            if(summonerInfoList == null || masteryList == null) {
+                message.channel.send(`I didn't receieve any data. Are you sure that summoner ${summonerName} exists and has champion masteries?`)
+            }
+            else {
+                var chestChampionsID = []
+                masteryList.forEach(champMastery => {
+                    if(champMastery.chestGranted == false){
+                        chestChampionsID.push(champMastery.championId)
+                    }
+                })
+                var chestChampionsName = []
+                for(var i in chestChampionsID){
+                    for(var j in championList){
+                        if(chestChampionsID[i] == championList[j].key){
+                            chestChampionsName.push(championList[j].name)
+                        }
                     }
                 }
-            }
-            if(!chestChampionsName.length){
-                message.channel.send(`Either you have every chest, no champions, or something went wrong. See the log for details.`)
-            }
-            else if(chestChampionsName.length > 8){
-                var chestChampionsNameShort = []
-                var done = false
-                var index = 0
-                while(!done && chestChampionsName.length){
-                    if(index == 7){
-                        done = true
-                    }
-                    var rand = Math.floor(Math.random() * chestChampionsName.length)
-                    var nextChamp = chestChampionsName[rand]
-                    chestChampionsName.splice(rand, 1)
-                    if(!chestChampionsNameShort.includes(nextChamp)){
-                        chestChampionsNameShort.push(nextChamp)
-                        index++
-                    }
+                if(!chestChampionsName.length){
+                    message.channel.send(`Either you have every chest, no champions, or something went wrong. See the log for details.`)
                 }
-                message.channel.send(`${summonerInfoList.name} still has to earn chests on a lot of champions. I'm selecting 8 of them at random.`)
-                message.channel.send(`${createMessage(chestChampionsNameShort)}`)
-            }
-            else{
-                message.channel.send(`${summonerInfoList.name}, still has to earn chests on...`)
-                message.channel.send(`${createMessage(chestChampionsName)}`)
+                else if(chestChampionsName.length > 8){
+                    var chestChampionsNameShort = []
+                    var done = false
+                    var index = 0
+                    while(!done && chestChampionsName.length){
+                        if(index == 7){
+                            done = true
+                        }
+                        var rand = Math.floor(Math.random() * chestChampionsName.length)
+                        var nextChamp = chestChampionsName[rand]
+                        chestChampionsName.splice(rand, 1)
+                        if(!chestChampionsNameShort.includes(nextChamp)){
+                            chestChampionsNameShort.push(nextChamp)
+                            index++
+                        }
+                    }
+                    message.channel.send(`${summonerInfoList.name} still has to earn chests on a lot of champions. I'm selecting 8 of them at random.`)
+                    message.channel.send(`${createMessage(chestChampionsNameShort)}`)
+                }
+                else{
+                    message.channel.send(`${summonerInfoList.name}, still has to earn chests on...`)
+                    message.channel.send(`${createMessage(chestChampionsName)}`)
+                }
             }
         }
         catch(e){

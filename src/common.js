@@ -1,5 +1,4 @@
 const fs = require('fs')
-const https = require('https')
 const {usernames} = require('../config/config.json')
 const auth = require('../config/auth.json')
 const encoding = 'utf8'
@@ -41,25 +40,6 @@ module.exports = {
         str = str.replace(".", "")
         str = str.replace("'", "")
         return str.toLowerCase()
-    },
-    httpsGetAsync: function(url) {
-        return new Promise((resolve, reject) => {
-            https.get(url, (response) => {
-                let statusCode = response.statusCode.toString()
-                if(statusCode.charAt(0) != 2){
-                    module.exports.botLog(`Status code ${statusCode} from API call.`)
-                    reject(statusCode)
-                    return undefined
-                }
-                let data = ''
-                response.on('data', (chunk) => {
-                    data += chunk
-                })
-                response.on('end', () => {
-                    resolve(JSON.parse(data))
-                })
-            }).on('error', reject)
-        })
     },
     unpackMap: function(map) {
         var mapValues = map.values()
