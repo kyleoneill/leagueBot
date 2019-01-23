@@ -40,17 +40,32 @@ module.exports = {
     },
     //CHAMPION-MASTERY-V4 - /lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}
     getChampionMasteryBySummonerID: async function(summonerID) {
-        var mastery = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerID}?api_key=${leagueKey}`)
-        return mastery
+        if(summonerID == null) {
+            return null
+        }
+        else {
+            var mastery = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerID}?api_key=${leagueKey}`)
+            return mastery 
+        }
     },
     //CHAMPION-MASTERY-V4 - /lol/champion-mastery/v4/champion-masteries/by-summoner/{encryptedSummonerId}/by-champion/{championId}
     getSpecificChampionMastery: async function(accountID, championID) {
-        var mastery = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountID}/by-champion/${championID}?api_key=${leagueKey}`)
-        return mastery
+        if(accountID == null || championID == null) {
+            return null
+        }
+        else {
+            var mastery = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountID}/by-champion/${championID}?api_key=${leagueKey}`)
+            return mastery
+        }
     },
     //LEAGUE-V4 - /lol/league/v4/positions/by-summoner/{encryptedSummonerId}
     getRankingBySummoner: async function(summonerID) {
-        var ranking = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/league/v4/positions/by-summoner/${summonerID}?api_key=${leagueKey}`)
-        return ranking
+        if(summonerID == null) {
+            return null
+        }
+        else {
+            var ranking = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/league/v4/positions/by-summoner/${summonerID}?api_key=${leagueKey}`)
+            return ranking
+        }
     }
 }
