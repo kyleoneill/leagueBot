@@ -23,7 +23,7 @@ for(const file of commandFiles) {
 }
 
 //On bot ready, start the database
-bot.on('ready', async () => {
+bot.on('ready', async function() {
     try{
         botLog(`~~~~~Bot Started~~~~~`)
         botLog(`Logged in as: ${bot.user.username}`)
