@@ -1,13 +1,13 @@
 const common = require('../src/common.js')
 const champion = require('../config/champion.json')
-const getRequest = common.httpsGetAsync
+const getRequest = require('../src/getRequests')
 
 module.exports = {
     name:'free',
     async execute(message, args) {
         try{
             var championList = champion.data
-            var freeListPost = await getRequest(`https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${this.leagueAPI}`)
+            var freeListPost = await getRequest.getCurrentFreeChampions()
             var freeChampions = freeListPost.freeChampionIds
     
             var output = []

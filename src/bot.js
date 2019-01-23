@@ -38,7 +38,6 @@ bot.on('ready', async () => {
 //Pack objects inside of 'this' for transport to commands
 this.botDatabase = userDB
 this.catAPI = auth.catKey
-this.leagueAPI = auth.leagueKey
 this.discordID = auth.discordID
 this.guildList = bot.guilds
 
