@@ -1,6 +1,5 @@
 const common = require('../common')
-const getRequest = common.httpsGetAsync
-const timeStamp = common.getTime
+const getRequest = require('../getRequests')
 const botLog = common.botLog
 const sqlite = require('sqlite')
 var db = null
@@ -15,7 +14,7 @@ class dbFunctions {
             }
             else {
                 botLog(`SQLite table does not exist, creating a new table.`)
-                await db.run("CREATE TABLE users(username TEXT, profileIconId INTEGER, accountId INTEGER, id INTEGER, guildname TEXT, summonerName TEXT, PRIMARY KEY(username, guildname))")
+                await db.run("CREATE TABLE users(username TEXT, profileIconId INTEGER, puuid INTEGER, accountId INTEGER, id INTEGER, guildname TEXT, summonerName TEXT, PRIMARY KEY(username, guildname))")
             }
         }
         catch(e) {
@@ -24,9 +23,11 @@ class dbFunctions {
     }
     async setSummoner(message, summonerName, key) {
         try{
-            var summonerInfo = await getRequest(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${summonerName}?api_key=${key}`)
-            //await db.prepare(`INSERT OR REPLACE INTO users VALUES ('${message.author.username}', '${summonerName}')`).run()
-            db.run(`INSERT OR REPLACE INTO users (username, profileIconId, accountId, id, guildname, summonerName) VALUES ('${message.author.username}','${summonerInfo.profileIconId}','${summonerInfo.accountId}','${summonerInfo.id}','${message.channel.guild}', '${summonerName}')`)
+            var summonerInfo = await getRequest.getSummonerByName(summonerName)
+            if(summonerInfo == null) {
+                throw new Error(`No information returned for summoner ${summonerName}`)
+            }
+            await db.run(`INSERT OR REPLACE INTO users (username, profileIconId, puuid, accountId, id, guildname, summonerName) VALUES ('${message.author.username}','${summonerInfo.profileIconId}','${summonerInfo.puuid}','${summonerInfo.accountId}','${summonerInfo.id}','${message.channel.guild}', '${summonerName}')`)
             botLog(`User ${message.author.username} updated their db information`)
         }
         catch(e) {
@@ -49,7 +50,7 @@ class dbFunctions {
     }
     async getAccountInfo(message) {
         try{
-            var row = await db.get(`SELECT summonerName, profileIconId, accountId, id FROM users WHERE username = '${message.author.username}' AND guildname = '${message.channel.guild}'`)
+            var row = await db.get(`SELECT summonerName, profileIconId, puuid, accountId, id FROM users WHERE username = '${message.author.username}' AND guildname = '${message.channel.guild}'`)
             if(!row) {
                 return null
             }
