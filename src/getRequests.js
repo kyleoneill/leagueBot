@@ -25,6 +25,9 @@ module.exports = {
     getSummonerByName: async function(summonerName) {
         var summonerNameRegex = /^[a-z0-9 _.]+$/i
         var NameIsValid = summonerNameRegex.test(summonerName)
+        if(summonerName.length > 16) {
+            NameIsValid = false
+        } 
         if(NameIsValid) {
             var summoner = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${leagueKey}`)
             return summoner
@@ -77,5 +80,10 @@ module.exports = {
             var gameInfo = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerID}?api_key=${leagueKey}`)
             return gameInfo
         }
+    },
+    //LOL-STATUS-V3 - /lol/status/v3/shard-data
+    getStatusOfShard: async function() {
+        var serverStatus = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/status/v3/shard-data?api_key=${leagueKey}`)
+        return serverStatus
     }
 }
