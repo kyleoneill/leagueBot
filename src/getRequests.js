@@ -57,8 +57,15 @@ module.exports = {
             return null
         }
         else {
-            var mastery = await this.httpsGetAsync(`https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountID}/by-champion/${championID}?api_key=${leagueKey}`)
-            return mastery
+            var temp = `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${accountID}/by-champion/${championID}?api_key=${leagueKey}`
+            try {
+                var mastery = await this.httpsGetAsync(temp)
+                return mastery
+            }
+            catch(e) {
+                return {championPoints: 0, championLevel: 0, championPointsUntilNextLevel: 1800, chestGranted: false}
+            }
+
         }
     },
     //LEAGUE-V4 - /lol/league/v4/positions/by-summoner/{encryptedSummonerId}
