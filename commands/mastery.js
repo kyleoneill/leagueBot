@@ -28,6 +28,16 @@ module.exports = {
                 }
                 if(championId != undefined){
                     const masteryData = await getRequest.getSpecificChampionMastery(accountInfo.id, championId)
+                    var masteryPointsStr = `Mastery Points: ${masteryData.championPoints}\n`;
+                    if(masteryData.championLevel > 4 && masteryData.championLevel < 7) {
+                        masteryPointsStr += `Get more S ranks to advance.`
+                    }
+                    else if(masteryData.championLevel == 7) {
+                        masteryPointsStr += "You've reached the maximum level."
+                    }
+                    else {
+                        masteryPointsStr += `Mastery Points Until Next Level: ${masteryData.championPointsUntilNextLevel}`
+                    }
                     if (masteryData != null) {
                         message.channel.send({embed: {
                             color: Math.floor(Math.random() * 16777214) + 1,
@@ -35,16 +45,15 @@ module.exports = {
                             thumbnail: {
                                 "url": `attachment://icon.png`
                             },
-                            //description: `Summoner ${summonerInfo.summonerName}`,
                             fields: [
                                 {
                                     name: "Mastery",
-                                    value: `Mastery Level: ${masteryData.championLevel}\nChest Earned: ${masteryData.chestGranted.toString().toProper()}`,
+                                    value: `Mastery Level: ${masteryData.championLevel}\n${masteryData.chestGranted ? 'You\'ve earned a chest.' : 'Can still earn a chest'}`,
                                     inline: true
                                 },
                                 {
                                     name: "Mastery Points",
-                                    value: `Mastery Points: ${masteryData.championPoints}\nMastery Points Until Next Level: ${masteryData.championPointsUntilNextLevel}`,
+                                    value: masteryPointsStr,
                                     inline: true
                                 }
                             ]
