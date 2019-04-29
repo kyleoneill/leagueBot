@@ -19,15 +19,10 @@ module.exports = {
             let lolcounterData = await getRequest.httpsRequest(url);
             let dom = new JSDOM(lolcounterData);
             let domCounterSection = dom.window.document.querySelectorAll("div.weak-block > div.champ-block");
-            let counterList = new Array();
+            var output = `The five best counters for ${args[0]} are:\n`;
             for(let i = 0; i < 5; i++) {
                 let championName = domCounterSection[i].querySelector("div.champ-block > div.theinfo > a > div").textContent;
-                counterList.push(championName);
-            }
-
-            var output = `The five best counters for ${args[0]} are:\n`;
-            for(let j = 0; j < counterList.length; j++){
-                output += `${j+1}: ${counterList[j]}\n`
+                output += `${i+1}: ${championName}\n`
             }
             message.channel.send(output);
 
