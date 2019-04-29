@@ -12,6 +12,7 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 8. `!free` - Lists the free champions for the week.
 9. `!chest [summoner]` - Displays the champions that can earn mastery chests.
 10. `!mastery [champion]` - Displays mastery information for a given champion.
+11. `!counter [champion]` - Displays five counters to a given champion.
 
 ## Misc
 Commands that take `[summoner]` as an argument (`!ranking` and `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
