@@ -15,7 +15,8 @@
         "!lose - I'll let you know how good you are at video games so you feel better after a tough match.",
         "!free - I'll list the free champions for this week.",
         "!chest [summoner] - Displays the champions that can earn mastery chests.",
-        "!mastery [champion] - Displays mastery information for a given champion."
+        "!mastery [champion] - Displays mastery information for a given champion.",
+        "!counter [champion] - Get five counters to a given champion."
     ],
     "usernames": [
         "T33m0isKool",
