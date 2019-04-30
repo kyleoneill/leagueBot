@@ -39,9 +39,13 @@ module.exports = {
             let lolcounterData = await getRequest.httpsRequest(url);
             let dom = new JSDOM(lolcounterData);
             let domCounterSection = dom.window.document.querySelectorAll("div.weak-block > div.champ-block");
-            let countersForDatatable
+            if(domCounterSection.length == 0) {
+                message.channel.send(`lolcounter does not have any counter data for ${args[0]}.`);
+                return;
+            }
 
-            for(let i = 0; i < 5; i++) {
+            let countersForDatatable
+            for(let i = 0; i < domCounterSection.length && i < 5; i++) {
                 let championName = domCounterSection[i].querySelector("div.champ-block > div.theinfo > a > div").textContent;
                 output += `${i+1}: ${championName}\n`;
                 if(countersForDatatable == undefined) {
