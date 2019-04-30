@@ -10,10 +10,10 @@ class dbFunctions {
             db = await sqlite.open('./database.sqlite')
             var row = await db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name = 'users'`)
             if(row !== undefined) {
-                botLog(`SQLite table exists.`)
+                botLog(`userDB SQLite table exists.`)
             }
             else {
-                botLog(`SQLite table does not exist, creating a new table.`)
+                botLog(`userDB SQLite table does not exist, creating a new table.`)
                 await db.run("CREATE TABLE users(username TEXT, profileIconId INTEGER, puuid INTEGER, accountId INTEGER, id INTEGER, guildname TEXT, summonerName TEXT, PRIMARY KEY(username, guildname))")
             }
         }
@@ -64,6 +64,7 @@ class dbFunctions {
     }
     close(){
         db.close()
+        botLog(`userDB database closed.`)
     }
 }
 
