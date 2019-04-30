@@ -13,6 +13,8 @@ const botLog = common.botLog
 //Bot Database
 const userDBFunctions = require('./databases/userDB')
 let userDB = new userDBFunctions()
+const counterDBFunctions = require('./databases/counterDB')
+let counterDB = new counterDBFunctions()
 
 //Collect bot commands from commands folder
 bot.commands = new Discord.Collection()
@@ -29,6 +31,7 @@ bot.on('ready', async function() {
         botLog(`Logged in as: ${bot.user.username}`)
         await bot.user.setActivity("Garen jungle");
         await userDB.start()
+        await counterDB.start()
     }
     catch(e){
         botLog(e)
@@ -37,6 +40,7 @@ bot.on('ready', async function() {
 
 //Pack objects inside of 'this' for transport to commands
 this.botDatabase = userDB
+this.counterDatabase = counterDB
 this.catAPI = auth.catKey
 this.discordID = auth.discordID
 this.guildList = bot.guilds
@@ -70,6 +74,8 @@ bot.on('message', async message => {
         await bot.commands.get(command).execute.call(this, message, args)
         if(command == 'shutdown' && message.author.username == 'sammie287') {
             botLog('~~~~~Bot shutting down~~~~~')
+            userDB.close()
+            counterDB.close()
             bot.destroy()
         }
     }

@@ -3,4 +3,4 @@ config/photos/*/*.png
 node_modules
 .vs/
 log.txt
-database.sqlite
+*.sqlite
