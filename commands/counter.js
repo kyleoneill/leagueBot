@@ -14,6 +14,10 @@ module.exports = {
             //TODO: make a list of counters. Check that list first to see if the html request is not needed.
             //Store the counter with a note of when the counter was stored, if it's been more than a month ago replace the counters
             let champion = common.cleanName(args[0]);
+            if(!common.championExists(champion)){
+                message.channel.send(`I don't think ${champion} is a champion, try again.`);
+                return;
+            }
             //TODO: Check here if the champion actually exists before submitting a request
             let url = `https://lolcounter.com/champions/${champion}`;
             let lolcounterData = await getRequest.httpsRequest(url);

@@ -1,6 +1,7 @@
 const fs = require('fs')
 const {usernames} = require('../config/config.json')
 const auth = require('../config/auth.json')
+const championData = require('../config/champion.json')
 const encoding = 'utf8'
 
 if (!String.prototype.toProper) {
@@ -75,5 +76,13 @@ module.exports = {
     },
     noName: function() {
         return(`You have not set a username. Set one like this: !setName ${usernames[Math.floor(Math.random() * usernames.length)]}`)
+    },
+    championExists: function(input){
+        for(var i in championData.data) {
+            if(i.toLowerCase() == input){
+                return true;
+            }
+        }
+        return false;
     }
 }
