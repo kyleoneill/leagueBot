@@ -1,30 +1,29 @@
-const fs = require('fs')
-const {usernames} = require('../config/config.json')
-const auth = require('../config/auth.json')
-const championData = require('../config/champion.json')
-const encoding = 'utf8'
+const fs = require('fs');
+const {usernames} = require('../config/config.json');
+const championData = require('../config/champion.json');
+const encoding = 'utf8';
 
 if (!String.prototype.toProper) {
     Object.defineProperty(String.prototype, 'toProper', {
         value: function() {
-            var traditionalToProper = this.charAt(0).toUpperCase() + this.substr(1)
+            var traditionalToProper = this.charAt(0).toUpperCase() + this.substr(1);
             if(traditionalToProper.indexOf(' ') > -1){
-                var index = traditionalToProper.indexOf(' ')
-                traditionalToProper = traditionalToProper.substr(0, index) + ' ' + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2)
+                var index = traditionalToProper.indexOf(' ');
+                traditionalToProper = traditionalToProper.substr(0, index) + ' ' + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2);
             }
             if(traditionalToProper.indexOf(`'`) > -1){
-                var index = traditionalToProper.indexOf(`'`)
-                traditionalToProper = traditionalToProper.substr(0, index) + `'` + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2)
+                var index = traditionalToProper.indexOf(`'`);
+                traditionalToProper = traditionalToProper.substr(0, index) + `'` + traditionalToProper.charAt(index+1).toUpperCase() + traditionalToProper.substr(index+2);
             }
-            return traditionalToProper
+            return traditionalToProper;
         }
     })
 }
 
 module.exports = {
     getTime: function() {
-        var timeStamp = (new Date()).toLocaleString('en-US')
-        return timeStamp
+        var timeStamp = (new Date()).toLocaleString('en-US');
+        return timeStamp;
     },
     titleCase: function(str){
         var splitStr = str.toLowerCase().split(' ');
@@ -37,52 +36,60 @@ module.exports = {
         return splitStr.join(' '); 
     },
     cleanName: function(str){
-        str = str.replace(" ","")
-        str = str.replace(".", "")
-        str = str.replace("'", "")
-        return str.toLowerCase()
+        str = str.replace(" ","");
+        str = str.replace(".", "");
+        str = str.replace("'", "");
+        return str.toLowerCase();
     },
     unpackMap: function(map) {
-        var mapValues = map.values()
-        var list = []
-        var isDone = false
+        var mapValues = map.values();
+        var list = [];
+        var isDone = false;
         while(!isDone){
-            var tmp = mapValues.next()
+            var tmp = mapValues.next();
             if(tmp.value != undefined){
-                list.push(tmp.value)
+                list.push(tmp.value);
             }
-            isDone = tmp.done
+            isDone = tmp.done;
         }
-        return list
+        return list;
     },
     botLog: function(msg) {
-        var output = `${module.exports.getTime()}: ${msg}`
-        console.log(output)
-        output += '\n'
-        const path = 'log.txt'
+        var output = `${module.exports.getTime()}: ${msg}`;
+        console.log(output);
+        output += '\n';
+        const path = 'log.txt';
         try{
             if(!fs.existsSync(path)){
                 fs.writeFileSync(path, '', encoding, (err) => {
-                    if(err) throw err
+                    if(err) throw err;
                 })
             }
             fs.appendFileSync(path, output, encoding, (err) => {
-                if(err) throw err
+                if(err) throw err;
             })
         }
         catch(e){
-            console.log(`${module.exports.getTime()}: Error saving log file.\n${e}`)
+            console.log(`${module.exports.getTime()}: Error saving log file.\n${e}`);
         }
     },
     noName: function() {
-        return(`You have not set a username. Set one like this: !setName ${usernames[Math.floor(Math.random() * usernames.length)]}`)
+        return(`You have not set a username. Set one like this: !setName ${usernames[Math.floor(Math.random() * usernames.length)]}`);
     },
-    championExists: function(input){
+    championExists: function(input) {
         for(var i in championData.data) {
-            if(i.toLowerCase() == input){
+            if(i.toLowerCase() == input) {
                 return true;
             }
         }
         return false;
+    },
+    getChampionId: function(name) {
+        for(var i in championData.data) {
+            if(i.toLowerCase() == name){
+                return championData.data[i].key;
+            }
+        }
+        return null;
     }
 }

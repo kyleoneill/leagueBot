@@ -1,6 +1,8 @@
 const common = require('../src/common.js')
 const getRequest = require('../src/getRequests')
 
+//TODO - Finish this
+
 module.exports = {
     name: 'currentGame',
     async execute(message, args) {

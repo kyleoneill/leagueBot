@@ -33,6 +33,9 @@ module.exports = {
                     message.channel.send(output);
                     return;
                 }
+                else{
+                    common.botLog(`Champion ${args[0]} has an expired counter. Days since update: ${differenceDays}, Last update date: ${counterData.date}`);
+                }
             }
 
             let url = `https://lolcounter.com/champions/${champion}`;

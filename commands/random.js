@@ -1,54 +1,46 @@
-const common = require('../src/common')
-const getTime = common.getTime
-const buildList = require('../config/buildList.json')
-const lanesList = require('../config/lanes.json')
+const lanesList = require('../config/lanes.json');
 
 module.exports = {
     name:'random',
     execute(message, args) {
-        var messageText
+        var messageText;
         if(!args.length){
-            lanes = ["top", "mid", "bot", "support", "jungle"]
-            randomLane = lanes[Math.floor(Math.random() * lanes.length)]
-            var champListRandom = lanesList[randomLane]
-            messageText = `You'll be playing ${getRandomChampion(champListRandom).toProper()} ${randomLane.toProper()} this game. Have fun!`
+            lanes = ["top", "mid", "bot", "support", "jungle"];
+            randomLane = lanes[Math.floor(Math.random() * lanes.length)];
+            messageText = `You'll be playing ${getRandomChampion(randomLane).toProper()} ${randomLane.toProper()} this game. Have fun!`;
         }
         else{
-            messageText = "You're going to be playing "
-            var laneExists = true
+            messageText = "You're going to be playing ";
+            var laneExists = true;
             switch(args[0]) {
                 case "top":
-                    var champListTop = lanesList['top']
-                    messageText += getRandomChampion(champListTop).toProper()
-                    break
+                    messageText += getRandomChampion("top").toProper();
+                    break;
                 case "mid":
-                    var champListMid = lanesList['mid']
-                    messageText += getRandomChampion(champListMid).toProper()
-                    break
+                    messageText += getRandomChampion("mid").toProper();
+                    break;
                 case "bot":
-                    var champListBot = lanesList['bot']
-                    messageText += getRandomChampion(champListBot).toProper()
-                    break
+                    messageText += getRandomChampion("bot").toProper();
+                    break;
                 case "support":
-                    var champListSupport = lanesList['support']
-                    messageText += getRandomChampion(champListSupport).toProper()
-                    break
+                    messageText += getRandomChampion("support").toProper();
+                    break;
                 case "jungle":
-                    var champListJungle = lanesList['jungle']
-                    messageText += getRandomChampion(champListJungle).toProper()
-                    break
+                    messageText += getRandomChampion("jungle").toProper();
+                    break;
                 default:
-                    laneExists = false
-                    messageText = "That lane doesn't exist. Please use 'top', 'mid', 'bot', 'support', and 'jungle'."
+                    laneExists = false;
+                    messageText = "That lane doesn't exist. Please use 'top', 'mid', 'bot', 'support', and 'jungle'.";
             }
             if(laneExists){
-                messageText += " this game, have fun!"
+                messageText += " this game, have fun!";
             }
         }
-        message.channel.send(messageText)
+        message.channel.send(messageText);
     }
 }
 
-function getRandomChampion(champList){
-    return champList[Math.floor(Math.random() * champList.length)]
+function getRandomChampion(lane){
+    var champList = lanesList[lane];
+    return champList[Math.floor(Math.random() * champList.length)];
 }

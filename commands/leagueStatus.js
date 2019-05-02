@@ -1,6 +1,6 @@
 const common = require('../src/common')
 const getRequest = require('../src/getRequests')
-
+//TODO - Finish this
 module.exports = {
     name:'leagueStatus',
     async execute(message, args) {
