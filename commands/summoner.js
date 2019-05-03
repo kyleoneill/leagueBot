@@ -66,7 +66,7 @@ module.exports = {
                             solo.rank = position.rank;
                             solo.LP = position.leaguePoints;
                         }
-                    })
+                    });
                     message.channel.send({embed: {
                         color: Math.floor(Math.random() * 16777214) + 1,
                         title: summonerInfo.summonerName,
@@ -85,7 +85,10 @@ module.exports = {
                                 inline: true
                             }
                         ]
-                    },files:[{attachment: `config/photos/profileicon/${summonerInfo.profileIconId}.png`, name: 'icon.png'}]});
+                    },files:[{attachment: `config/photos/profileicon/${summonerInfo.profileIconId}.png`, name: 'icon.png'}]}).catch(e => {
+                        common.botLog(e);
+                        message.channel.send(`I'm missing the summoner profile icon for ${summonerName}, I need to be updated.`);
+                    });
                 }
             }
         }
