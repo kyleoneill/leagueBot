@@ -21,14 +21,14 @@ module.exports = {
             else{
                 var summonerInfo
                 if(useDB){
-                    summonerInfo = await this.botDatabase.getAccountInfo(message)
+                    summonerInfo = await this.botDatabase.getAccountInfo(message);
                 }
                 else{
-                    summonerInfo = await getRequest.getSummonerByName(summonerName)
+                    summonerInfo = await getRequest.getSummonerByName(summonerName);
                 }
                 if(summonerInfo == null){
-                    message.channel.send(`I did not find any information for summoner '${summonerName}'. Please ensure you gave me your summoner name or the provided name is correct.`)
-                    return
+                    message.channel.send(`I did not find any information for summoner '${summonerName}'. Please ensure you gave me your summoner name or the provided name is correct.`);
+                    return;
                 }
 
                 var ranking = await getRequest.getRankingBySummoner(summonerInfo.id);
