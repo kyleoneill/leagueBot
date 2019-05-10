@@ -1,5 +1,4 @@
 const common = require('../common');
-const getRequest = require('../getRequests');
 const botLog = common.botLog;
 const sqlite = require('sqlite');
 var db = null;
@@ -18,7 +17,7 @@ class dbFunctions {
             }
         }
         catch(e) {
-            botLog(`${e}`);
+            botLog(e);
         }
     }
     async getCounter(champion) {

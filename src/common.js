@@ -25,7 +25,7 @@ module.exports = {
         var timeStamp = (new Date()).toLocaleString('en-US');
         return timeStamp;
     },
-    titleCase: function(str){
+    titleCase: function(str) {
         var splitStr = str.toLowerCase().split(' ');
         for (var i = 0; i < splitStr.length; i++) {
             // You do not need to check if i is larger than splitStr length, as your for does that for you
@@ -35,10 +35,16 @@ module.exports = {
         // Directly return the joined string
         return splitStr.join(' '); 
     },
-    cleanName: function(str){
+    cleanName: function(str) {
         str = str.replace(" ","");
         str = str.replace(".", "");
         str = str.replace("'", "");
+        return str.toLowerCase();
+    },
+    cleanNameHyphen: function(str) {
+        str = str.replace(" ","-");
+        str = str.replace(".", "");
+        str = str.replace("'", "-");
         return str.toLowerCase();
     },
     unpackMap: function(map) {
