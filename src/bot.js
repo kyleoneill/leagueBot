@@ -15,6 +15,8 @@ const userDBFunctions = require('./databases/userDB');
 let userDB = new userDBFunctions();
 const counterDBFunctions = require('./databases/counterDB');
 let counterDB = new counterDBFunctions();
+const buildDBFunctions = require('./databases/buildDB');
+let buildDB = new buildDBFunctions();
 
 //Collect bot commands from commands folder
 bot.commands = new Discord.Collection();
@@ -32,6 +34,7 @@ bot.on('ready', async function() {
         await bot.user.setActivity("Garen jungle");
         await userDB.start();
         await counterDB.start();
+        await buildDB.start();
     }
     catch(e){
         botLog(e);
@@ -41,6 +44,7 @@ bot.on('ready', async function() {
 //Pack objects inside of 'this' for transport to commands
 this.botDatabase = userDB;
 this.counterDatabase = counterDB;
+this.buildDatabase = buildDB;
 this.catAPI = auth.catKey;
 this.discordID = auth.discordID;
 this.guildList = bot.guilds;
@@ -76,6 +80,7 @@ bot.on('message', async message => {
             botLog('~~~~~Bot shutting down~~~~~');
             userDB.close();
             counterDB.close();
+            buildDB.close();
             bot.destroy();
         }
     }

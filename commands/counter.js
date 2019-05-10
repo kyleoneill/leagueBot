@@ -28,7 +28,7 @@ module.exports = {
                 if(differenceDays < 14) {
                     let counterList = counterData.counters.split(" ");
                     for(let i = 0; i < counterList.length; i++) {
-                        output += `${i+1}: ${counterList[i]}\n`
+                        output += `${i+1}: ${counterList[i]}\n`;
                     }
                     message.channel.send(output);
                     return;
@@ -69,7 +69,7 @@ module.exports = {
         }
         catch(e){
             message.channel.send(`Something wrong seems to have happened, check the log.`);
-            common.botLog(`${e}`);
+            common.botLog(e);
         }
     }
 }
