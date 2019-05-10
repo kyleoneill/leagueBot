@@ -38,7 +38,7 @@ class dbFunctions {
         try{
             let query = `INSERT OR REPLACE INTO buildTable (champion, items, date) VALUES ('${champion}','${items}','${date}')`;
             await db.run(query);
-            botLog(`Updated counter information for champion ${champion}`);
+            botLog(`Updated build information for champion ${champion}`);
         }
         catch(e){
             botLog(e);
