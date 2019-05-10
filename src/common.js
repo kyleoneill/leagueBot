@@ -47,6 +47,25 @@ module.exports = {
         str = str.replace("'", "-");
         return str.toLowerCase();
     },
+    addPossessive: function(str) {
+        let splitStr = str.split(" ");
+        let output = "";
+        if(splitStr.length > 1) {
+            for(var i = 0; i < splitStr.length; i++) {
+                let word = splitStr[i];
+                if(word[word.length - 1] == 's') {
+                    word  = word.substr(0, word.length -1) + `'s`;
+                }
+                output += `${word} `;
+            }
+            output = output.substr(0, output.length -1);
+            return output;
+        }
+        else {
+            return str;
+        }
+
+    },
     unpackMap: function(map) {
         var mapValues = map.values();
         var list = [];
