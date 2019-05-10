@@ -4,6 +4,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 module.exports = {
+    //TODO: add summoner spells to the build. Turn build output into a card?
     name:'build',
     async execute(message, args) {
         try {
@@ -18,7 +19,7 @@ module.exports = {
                 return;
             }
             var today = new Date();
-            var output = `The build for ${args[0]} are:\n`;
+            var output = `The build for ${args[0]} is:\n`;
 
             var buildData = await this.buildDatabase.getBuild(champion);
             if(buildData != null) {
@@ -29,6 +30,7 @@ module.exports = {
                     let buildList = buildData.items.split(" ");
                     for(let i = 0; i < buildList.length; i++) {
                         let item = buildList[i].replace(/-/g, " ");
+                        item = common.addPossessive(item);
                         output += `${i+1}: ${item}\n`;
                     }
                     message.channel.send(output);
