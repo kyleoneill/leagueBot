@@ -13,7 +13,7 @@ class dbFunctions {
             }
             else {
                 botLog(`buildTable SQLite table does not exist, creating a new table.`);
-                await db.run("CREATE TABLE buildTable(champion TEXT, items TEXT, date TEXT, PRIMARY KEY(champion))");
+                await db.run("CREATE TABLE buildTable(champion TEXT, items TEXT, runePrimary TEXT, runeSecondary TEXT, date TEXT, PRIMARY KEY(champion))");
             }
         }
         catch(e) {
@@ -22,7 +22,7 @@ class dbFunctions {
     }
     async getBuild(champion) {
         try{
-            var row = await db.get(`SELECT items, date FROM buildTable WHERE champion = '${champion}'`);
+            var row = await db.get(`SELECT items, runePrimary, runeSecondary, date FROM buildTable WHERE champion = '${champion}'`);
             if(row){
                 return row;
             }
@@ -34,9 +34,9 @@ class dbFunctions {
             botLog(e);
         }
     }
-    async setBuild(champion, items, date) {
+    async setBuild(champion, items, runePrimary, runeSecondary, date) {
         try{
-            let query = `INSERT OR REPLACE INTO buildTable (champion, items, date) VALUES ('${champion}','${items}','${date}')`;
+            let query = `INSERT OR REPLACE INTO buildTable (champion, items, runePrimary, runeSecondary, date) VALUES ('${champion}','${items}', '${runePrimary}', '${runeSecondary}', '${date}')`;
             await db.run(query);
             botLog(`Updated build information for champion ${champion}`);
         }
