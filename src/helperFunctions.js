@@ -3,9 +3,9 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 module.exports = {
     rankedBoostBuild: async function(champion) {
-        var itemsForOutput = '';
-        var primaryRunesForOutput = '';
-        var secondaryRunesForOutput = '';
+        var itemsForOutput = [];
+        var primaryRunesForOutput = [];
+        var secondaryRunesForOutput = [];
 
         let url = `https://rankedboost.com/league-of-legends/build/${champion}/`;
         let rankedboostData = await getRequest.httpsRequest(url);
@@ -19,7 +19,7 @@ module.exports = {
         let itemsForDB
         for(let i = 0; i < domItemSection.length; i++) {
             let item = domItemSection[i].querySelector("li > span").textContent;
-            itemsForOutput += `${i+1}: ${item}\n`;
+            itemsForOutput.push(item);
             item = item.replace(/\s/g, "-");
             item = item.replace(/'/g, "");
             if(itemsForDB == undefined) {
@@ -35,11 +35,14 @@ module.exports = {
 
         let primaryRunesForDB = '';
         let primaryRuneDom = domRuneSection[0].children;
-        primaryRunesForOutput = primaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent + "\n";
+        primaryRunesForOutput.push(primaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent);
         primaryRunesForDB = (primaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent.replace(/\s/g, "-")) + " ";
         for(let i = 1; i < primaryRuneDom.length; i++) {
             let rune = primaryRuneDom[i].querySelector('div > div').textContent;
-            primaryRunesForOutput += `${i}: ${rune}\n`;
+            if(rune == "") {
+                break;
+            }
+            primaryRunesForOutput.push(rune);
             rune = rune.replace(/'/g, "");
             rune = rune.replace(/\s/g, "-");
             primaryRunesForDB += `${rune} `;
@@ -48,11 +51,14 @@ module.exports = {
 
         let secondaryRunesForDB = '';
         let secondaryRuneDom = domRuneSection[1].children;
-        secondaryRunesForOutput = secondaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent + "\n";
+        secondaryRunesForOutput.push(secondaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent);
         secondaryRunesForDB = (secondaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent.replace(/\s/g, "-")) + " ";
         for(let i = 1; i < secondaryRuneDom.length; i++) {
             let rune = secondaryRuneDom[i].querySelector('div > div').textContent;
-            secondaryRunesForOutput += `${i}: ${rune}\n`;
+            if(rune == "") {
+                break;
+            }
+            secondaryRunesForOutput.push(rune);
             rune = rune.replace(/'/g, "");
             rune = rune.replace(/\s/g, "-");
             secondaryRunesForDB += `${rune} `;

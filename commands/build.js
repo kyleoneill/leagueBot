@@ -38,14 +38,39 @@ module.exports = {
             }
             if(updateDB) {
                 build = await helper.rankedBoostBuild(championForURL);
-                if(build == null) {
+                if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3) {
                     message.channel.send(`RankedBoost does not have any build data for ${args[0]}.`);
                     return;
                 }
                 let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
                 await this.buildDatabase.setBuild(champion, build.itemsDB, build.primaryRunesDB, build.secondaryRunesDB, dateForDatatable);
             }
-            message.channel.send(output + build.items + "\n" + build.primaryRunes + "\n" + build.secondaryRunes);
+
+            var championName = common.cleanName(args[0]);
+            message.channel.send({embed: {
+                color: Math.floor(Math.random() * 16777214) + 1,
+                title: args[0] + " Build",
+                thumbnail: {
+                    "url": `attachment://icon.png`
+                },
+                fields: [
+                    {
+                        name: "Items",
+                        value: `1. ${build.items[0]}\n2. ${build.items[1]}\n3. ${build.items[2]}\n4. ${build.items[3]}\n5. ${build.items[4]}\n6. ${build.items[5]}`,
+                        inline: false,
+                    },
+                    {
+                        name: build.primaryRunes[0],
+                        value: `1. ${build.primaryRunes[1]}\n2. ${build.primaryRunes[2]}\n3. ${build.primaryRunes[3]}\n4. ${build.primaryRunes[4]}`,
+                        inline: true,
+                    },
+                    {
+                        name: build.secondaryRunes[0],
+                        value: `1. ${build.secondaryRunes[1]}\n2. ${build.secondaryRunes[2]}`,
+                        inline: true,
+                    }
+                ]
+            },files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}]});
         }
         catch(e) {
             message.channel.send(`There isn't any build data for ${args[0]} on RankedBoost.\nSee log for details.`);
@@ -55,22 +80,20 @@ module.exports = {
 }
 
 function getItemList(items) {
-    let output = '';
     let buildList = items.split(" ");
     for(let i = 0; i < buildList.length; i++) {
         let item = buildList[i].replace(/-/g, " ");
         item = common.addPossessive(item);
-        output += `${i+1}: ${item}\n`;
+        buildList[i] = item;
     }
-    return output;
+    return buildList;
 }
 
 function getRuneList(runes) {
     let runeList = runes.split(" ")
-    let output = runeList[0] + "\n";
     for(let i = 1; i < runeList.length; i++) {
         let rune = runeList[i].replace(/-/g, " ");
-        output += `${i}: ${rune}\n`
+        runeList[i] = rune;
     }
-    return output;
+    return runeList;
 }
