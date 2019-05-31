@@ -48,6 +48,7 @@ this.buildDatabase = buildDB;
 this.catAPI = auth.catKey;
 this.discordID = auth.discordID;
 this.guildList = bot.guilds;
+this.bot = bot;
 
 //On discord message
 bot.on('message', async message => {
