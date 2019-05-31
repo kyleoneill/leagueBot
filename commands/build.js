@@ -46,26 +46,28 @@ module.exports = {
                 await this.buildDatabase.setBuild(champion, build.itemsDB, build.primaryRunesDB, build.secondaryRunesDB, dateForDatatable);
             }
 
+            const primaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.primaryRunes[0].toLowerCase());
+            const secondaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.secondaryRunes[0].toLowerCase());
             var championName = common.cleanName(args[0]);
             message.channel.send({embed: {
                 color: Math.floor(Math.random() * 16777214) + 1,
-                title: args[0] + " Build",
+                title: args[0].toProper() + " Build",
                 thumbnail: {
                     "url": `attachment://icon.png`
                 },
                 fields: [
                     {
-                        name: "Items",
+                        name: ":crossed_swords: Items :crossed_swords:",
                         value: `1. ${build.items[0]}\n2. ${build.items[1]}\n3. ${build.items[2]}\n4. ${build.items[3]}\n5. ${build.items[4]}\n6. ${build.items[5]}`,
                         inline: false,
                     },
                     {
-                        name: build.primaryRunes[0],
+                        name: `${primaryRuneEmoji} ${build.primaryRunes[0]} ${primaryRuneEmoji}`,
                         value: `1. ${build.primaryRunes[1]}\n2. ${build.primaryRunes[2]}\n3. ${build.primaryRunes[3]}\n4. ${build.primaryRunes[4]}`,
                         inline: true,
                     },
                     {
-                        name: build.secondaryRunes[0],
+                        name: `${secondaryRuneEmoji} ${build.secondaryRunes[0]} ${secondaryRuneEmoji}`,
                         value: `1. ${build.secondaryRunes[1]}\n2. ${build.secondaryRunes[2]}`,
                         inline: true,
                     }
