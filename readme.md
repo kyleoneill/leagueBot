@@ -8,7 +8,7 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 4. `!summoner [SummonerName]` - Provides information about a summoner, such as ranking.
 5. `!random [lane]` - Gives you a random champion to play, you can also give the command a specific lane to select for.
 6. `!lose` - When you lose, this command will ~~remind you that you're garbage~~ help raise your spirits.
-7. `!win` - Fetches a happy kitty from Google to help celebrate a well earned victory.
+7. `!win` - Fetches a picture of a dog who is proud of your accomplishment.
 8. `!free` - Lists the free champions for the week.
 9. `!chest [summoner]` - Displays the champions that can earn mastery chests.
 10. `!mastery [champion]` - Displays mastery information for a given champion.
