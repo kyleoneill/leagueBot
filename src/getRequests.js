@@ -98,6 +98,16 @@ module.exports = {
             return ranking;
         }
     },
+    //MATCH-V4 - /lol/match/v4/matchlists/by-account/{encryptedAccountId}
+    getHistoricalMatchInfo: async function(accountID) {
+        if(accountID == null) {
+            return null;
+        }
+        else {
+            var matchInfo = await this.httpsGet(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountID}?api_key=${leagueKey}`);
+            return matchInfo;
+        }
+    },
     //SPECTATOR-V4 - /lol/spectator/v4/active-games/by-summoner/{encryptedSummonerId}
     getInfoAboutCurrentGame: async function(summonerID) {
         if(summonerID == null) {
