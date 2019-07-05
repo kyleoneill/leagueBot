@@ -2,7 +2,6 @@ const common = require('../src/common.js');
 const helper = require('../src/helperFunctions.js');
 
 module.exports = {
-    //TODO: Make the output a card rather than raw text, it doesn't look good
     name:'build',
     async execute(message, args) {
         try {
