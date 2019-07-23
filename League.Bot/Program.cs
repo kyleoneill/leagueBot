@@ -47,7 +47,6 @@ namespace League.Bot
 
         public async Task MainAsync(TaskCompletionSource<bool> tcs)
         {
-            throw new Exception("Terminal Overload");
             _provider = ConfigureServices();
             
                 client = _provider.GetRequiredService<DiscordSocketClient>();
