@@ -42,21 +42,21 @@ namespace League.Bot.Commands
             await Context.Channel.SendMessageAsync(string.Format("You are {0}. This is the {1} channel in guild {2}.", Context.Message.Author.Username, Context.Message.Channel.Name, Context.Guild.Name));
         }
 
-        [Command("dbSet")]
-        [Summary("foo")]
-        public async Task DbSet()
+        [Command("setName")]
+        [Summary("Sets your summoner name.")]
+        public async Task SetName(string summonerName)
         {
-            _db.CreateUser(Context.Message.Author.Username, Context.Guild.Name);
+            string res = await _webRequester.GetSummonerByNameAsync(summonerName);
+            //_db.SetUser(Context.Message.Author.Username, Context.Guild.Name, );
         }
 
         [Command("dbGet")]
         [Summary("foo")]
         public async Task DbGet()
         {
-            DiscordUser user = _db.SelectUser(Context.Message.Author.Username, Context.Guild.Name);
-            await Context.Channel.SendMessageAsync(string.Format("Username: {0}\nGuild: {1}\nDatabase ID: {2}", user.Username, user.Guild, user.ID));
-        }
 
+        }
+        /*
         [Command("shrine")]
         [Summary("Provides the current perks available in the Shrine of Secrets.")]
         public async Task ShrineOfSecrets()
@@ -92,5 +92,6 @@ namespace League.Bot.Commands
             Embed embed = embedBuilder.Build();
             await Context.Channel.SendMessageAsync(embed: embed);
         }
+        */
     }
 }

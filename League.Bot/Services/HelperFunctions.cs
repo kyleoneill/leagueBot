@@ -7,6 +7,7 @@ namespace League.Bot.Services
 {
     public static class HelperFunctions
     {
+        /*
         public static async Task<List<Shrine>> GetShrineOnline(WebRequester webRequester)
         {
             List<Shrine> perks = new List<Shrine>();
@@ -39,5 +40,6 @@ namespace League.Bot.Services
             }
             return false;
         }
+        */
     }
 }

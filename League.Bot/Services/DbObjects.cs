@@ -66,15 +66,4 @@ namespace League.Bot.Services
             ScrapeDate = scrapeDate;
         }
     }
-
-    public class Shrine //TODO: REMOVE ME
-    {
-        public string PerkName { get; set; }
-        public DateTime PerkDate { get; set; }
-        public Shrine(string perkName, DateTime perkDate)
-        {
-            PerkName = perkName;
-            PerkDate = perkDate;
-        }
-    }
 }

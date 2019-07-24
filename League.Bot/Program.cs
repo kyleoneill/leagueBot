@@ -54,15 +54,13 @@ namespace League.Bot
                 client.Log += Log;
             _provider.GetRequiredService<CommandService>().Log += Log;
 
-                // Some alternative  options would be to keep your token in an Environment Variable or a standalone file.
-                // var token = Environment.GetEnvironmentVariable("NameOfYourEnvironmentVariable");
-                var token = File.ReadAllText("Config/token.txt");
+                var token = Environment.GetEnvironmentVariable("DiscordToken");
 
                 await client.LoginAsync(TokenType.Bot, token);
                 await client.StartAsync();
 
                 await _provider.GetRequiredService<CommandHandlingService>().InitializeAsync();
-            await tcs.Task;
+                await tcs.Task;
 
                 // Block this task until the program is closed.
         }
