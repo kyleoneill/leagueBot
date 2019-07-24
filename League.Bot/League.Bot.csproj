@@ -24,7 +24,4 @@
     <Folder Include="Services\" />
     <Folder Include="Commands\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Services\RiotAPI.cs" />
-  </ItemGroup>
 </Project>
