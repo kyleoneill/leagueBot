@@ -88,13 +88,13 @@ module.exports = {
 
         }
     },
-    //LEAGUE-V4 - /lol/league/v4/positions/by-summoner/{encryptedSummonerId}
+    //LEAGUE-V4 - /lol/league/v4/entries/by-summoner/{encryptedSummonerId}
     getRankingBySummoner: async function(summonerID) {
         if(summonerID == null) {
             return null;
         }
         else {
-            var ranking = await this.httpsGet(`https://na1.api.riotgames.com/lol/league/v4/positions/by-summoner/${summonerID}?api_key=${leagueKey}`);
+            var ranking = await this.httpsGet(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerID}?api_key=${leagueKey}`);
             return ranking;
         }
     },
