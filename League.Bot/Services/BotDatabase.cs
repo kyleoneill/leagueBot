@@ -13,75 +13,93 @@ namespace League.Bot.Services
         {
             if (!File.Exists("db.sqlite"))
             {
-                Console.WriteLine("Creating new user database");
+                Console.WriteLine("Creating new sqlite db");
                 SQLiteConnection.CreateFile("db.sqlite");
                 SQLiteConnection dbCreateConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
                 dbCreateConnection.Open();
 
-                string usersQuery = "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, guildname TEXT);";
+                //string username, string guild, int id, int profileIcon, int puuid, int accountid, int riotid, string summonerName
+                string usersQuery = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, guildname TEXT, profileIcon INTEGER, puuid INTEGER, accountid INTEGER, riotid INTEGER, summonername TEXT);";
                 SQLiteCommand usersCommand = new SQLiteCommand(usersQuery, dbCreateConnection);
                 usersCommand.ExecuteNonQuery();
 
-                string shrineQuery = "CREATE TABLE shrine(perkName TEXT PRIMARY KEY, perkDate TEXT);";
-                SQLiteCommand shrineCommand = new SQLiteCommand(shrineQuery, dbCreateConnection);
-                shrineCommand.ExecuteNonQuery();
+                //string championName, string counters, DateTime scrapeDate
+                string counterQuery = "CREATE TABLE counters(champion TEXT PRIMARY KEY, counters TEXT, scrapedate TEXT);";
+                SQLiteCommand counterCommand = new SQLiteCommand(counterQuery, dbCreateConnection);
+                counterCommand.ExecuteNonQuery();
+
+                //int id, string championName, string lane, string items, string runePrimary, string runeSecondary, DateTime scrapeDate
+                string buildQuery = "CREATE TABLE builds(id INTEGER PRIMARY KEY AUTOINCREMENT, champion TEXT, lane TEXT, items TEXT, runeprimary TEXT, runesecondary TEXT, scrapedate TEXT);";
+                SQLiteCommand buildCommand = new SQLiteCommand(buildQuery, dbCreateConnection);
+                buildCommand.ExecuteNonQuery();
 
                 dbCreateConnection.Close();
             }
             dbConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
         }
 
-        public void CreateUser(string username, string guildname)
+        public void RunVoidQuery(string sql)
         {
             dbConnection.Open();
-            string sql = string.Format("INSERT INTO users (username, guildname) VALUES ('{0}', '{1}');", username, guildname);
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
             dbConnection.Close();
         }
 
-        public DiscordUser SelectUser(string username, string guildname)
+        public SQLiteDataReader GetSingleRow(string sql)
         {
             dbConnection.Open();
-            string sql = string.Format("SELECT * FROM users WHERE username = '{0}' AND guildname = '{1}';", username, guildname);
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             SQLiteDataReader output = command.ExecuteReader();
             output.Read();
-            DiscordUser user = new DiscordUser((string)output["username"], (string)output["guildname"], (int)(long)output["id"]);
             dbConnection.Close();
+            return output;
+        }
+
+        public void SetUser(string username, string guild, int profileIcon, int puuid, int accountid, int riotid, string summonerName)
+        {
+            string sql = string.Format("INSERT INTO users(username, guildname, profileIcon, puuid, accountid, riotid, summonername) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');", username, guild, profileIcon, puuid, accountid, riotid, summonerName);
+            RunVoidQuery(sql);
+        }
+        public DiscordUser GetUser(string username, string guildname)
+        {
+            string sql = string.Format("SELECT * FROM users WHERE username = '{0}' AND guildname = '{1}';", username, guildname);
+            SQLiteDataReader reader = GetSingleRow(sql);
+            DiscordUser user = new DiscordUser((string)reader["username"], (string)reader["guildname"], (int)(long)reader["id"], (int)reader["profileicon"], (int)reader["puuid"], (int)reader["accountid"], (int)reader["riotid"], (string)reader["summonername"]);
             return user;
         }
 
-        public void SetShrine(List<Shrine> perks)
+        public void SetCounter(string championName, string counters, DateTime scrapeDate)
         {
-            dbConnection.Open();
-            string today = DateTime.Today.ToString();
-            SQLiteCommand truncateCommand = new SQLiteCommand("DELETE FROM shrine;", dbConnection);
-            truncateCommand.ExecuteNonQuery();
-            for (int i = 0; i < perks.Count; i++)
-            {
-                string sql = string.Format("INSERT INTO shrine(perkName, perkDate) VALUES('{0}', '{1}');", perks[i].PerkName, today);
-                SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
-                command.ExecuteNonQuery();
-            }
-            dbConnection.Close();
+            string sql = string.Format("INSERT INTO counters(champion, counters, scrapedate) VALUES('{0}', '{1}', '{2}');", championName, counters, scrapeDate.ToString());
+            RunVoidQuery(sql);
+        }
+        public ChampionCounter GetCounter(string championName)
+        {
+            string sql = string.Format("SELECT * FROM counters WHERE champion = '{0}';", championName);
+            SQLiteDataReader reader = GetSingleRow(sql);
+            ChampionCounter counter = new ChampionCounter((string)reader["champion"], (string)reader["counters"], (DateTime)reader["scrapedate"]);
+            return counter;
         }
 
-        public List<Shrine> GetShrine()
+        public void SetBuild(string championName, string lane, string items, string runePrimary, string runeSecondary, DateTime scrapeDate)
         {
-            dbConnection.Open();
-            SQLiteCommand command = new SQLiteCommand("SELECT perkName, perkDate FROM shrine;", dbConnection);
-            var dbPerks = command.ExecuteReader();
-            List<Shrine> output = new List<Shrine>();
-            while (dbPerks.Read())
-            {
-                DateTime date = Convert.ToDateTime((string)dbPerks["perkDate"]);
-                string name = (string)dbPerks["perkName"];
-                Shrine shrine = new Shrine(name, date);
-                output.Add(shrine);
-            }
-            dbConnection.Close();
-            return output;
+            string sql = string.Format("INSERT INTO builds(champion, lane, items, runeprimary, runesecondary, scrapedate) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", championName, lane, items, runePrimary, runeSecondary, scrapeDate.ToString());
+            RunVoidQuery(sql);
+        }
+        public ChampionBuild GetBuild(string championName)
+        {
+            string sql = string.Format("SELECT * FROM builds WHERE champion = '{0}';", championName);
+            SQLiteDataReader reader = GetSingleRow(sql);
+            ChampionBuild build = new ChampionBuild((int)reader["id"], (string)reader["champion"], (string)reader["lane"], (string)reader["items"], (string)reader["runeprimary"], (string)reader["runesecondary"], (DateTime)reader["scraptedate"]);
+            return build;
+        }
+        public ChampionBuild GetBuild(string championName, string lane)
+        {
+            string sql = string.Format("SELECT * FROM builds WHERE champion = '{0}' AND lane = '{1}';", championName, lane);
+            SQLiteDataReader reader = GetSingleRow(sql);
+            ChampionBuild build = new ChampionBuild((int)reader["id"], (string)reader["champion"], (string)reader["lane"], (string)reader["items"], (string)reader["runeprimary"], (string)reader["runesecondary"], (DateTime)reader["scraptedate"]);
+            return build;
         }
     }
 }

@@ -65,8 +65,6 @@ namespace League.Bot
             await tcs.Task;
 
                 // Block this task until the program is closed.
-                
-            
         }
     }
 }
