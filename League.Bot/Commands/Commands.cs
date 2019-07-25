@@ -7,9 +7,11 @@ using League.Bot.Services;
 using AngleSharp;
 using AngleSharp.Html.Parser;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace League.Bot.Commands
 {
+    //TOOD: Break this into a partial class so every command can be in its own file
     public class BotCommands : ModuleBase<SocketCommandContext>
     {
         readonly WebRequester _webRequester;
@@ -46,8 +48,9 @@ namespace League.Bot.Commands
         [Summary("Sets your summoner name.")]
         public async Task SetName(string summonerName)
         {
-            string res = await _webRequester.GetSummonerByNameAsync(summonerName);
-            //_db.SetUser(Context.Message.Author.Username, Context.Guild.Name, );
+            Summoner summoner = await _webRequester.GetSummonerByNameAsync(summonerName);
+            Console.WriteLine(summoner.Name);
+            //_db.SetUser(Context.Message.Author.Username, Context.Guild.Name, ); have this just take the summoner objects
         }
 
         [Command("dbGet")]
