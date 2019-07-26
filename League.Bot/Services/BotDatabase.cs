@@ -18,8 +18,8 @@ namespace League.Bot.Services
                 SQLiteConnection dbCreateConnection = new SQLiteConnection("Data Source=db.sqlite;Version=3;");
                 dbCreateConnection.Open();
 
-                //string username, string guild, int id, int profileIcon, int puuid, int accountid, int riotid, string summonerName
-                string usersQuery = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, guildname TEXT, profileIcon INTEGER, puuid INTEGER, accountid INTEGER, riotid INTEGER, summonername TEXT);";
+                //string username, string guild, int id, int profileIcon, int puuid, int accountid, int summonerid, string summonerName
+                string usersQuery = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, guildname TEXT, profileIcon INTEGER, puuid INTEGER, accountid INTEGER, summonerid INTEGER, summonername TEXT);";
                 SQLiteCommand usersCommand = new SQLiteCommand(usersQuery, dbCreateConnection);
                 usersCommand.ExecuteNonQuery();
 
@@ -56,16 +56,16 @@ namespace League.Bot.Services
             return output;
         }
 
-        public void SetUser(string username, string guild, int profileIcon, int puuid, int accountid, int riotid, string summonerName)
+        public void SetUser(string username, string guild, int profileIcon, int puuid, int accountid, int summonerid, string summonerName)
         {
-            string sql = string.Format("INSERT INTO users(username, guildname, profileIcon, puuid, accountid, riotid, summonername) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');", username, guild, profileIcon, puuid, accountid, riotid, summonerName);
+            string sql = string.Format("INSERT INTO users(username, guildname, profileIcon, puuid, accountid, summonerid, summonername) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}');", username, guild, profileIcon, puuid, accountid, summonerid, summonerName);
             RunVoidQuery(sql);
         }
         public DiscordUser GetUser(string username, string guildname)
         {
             string sql = string.Format("SELECT * FROM users WHERE username = '{0}' AND guildname = '{1}';", username, guildname);
             SQLiteDataReader reader = GetSingleRow(sql);
-            DiscordUser user = new DiscordUser((string)reader["username"], (string)reader["guildname"], (int)(long)reader["id"], (int)reader["profileicon"], (int)reader["puuid"], (int)reader["accountid"], (int)reader["riotid"], (string)reader["summonername"]);
+            DiscordUser user = new DiscordUser((string)reader["username"], (string)reader["guildname"], (int)(long)reader["id"], (int)reader["profileicon"], (int)reader["puuid"], (int)reader["accountid"], (int)reader["summonerid"], (string)reader["summonername"]);
             return user;
         }
 
