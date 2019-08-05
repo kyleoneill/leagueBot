@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -18,9 +18,5 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.11" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Commands\" />
   </ItemGroup>
 </Project>

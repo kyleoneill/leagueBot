@@ -20,8 +20,15 @@ namespace League.Bot.Services
             try
             {
                 HttpClient client = clientFactory.CreateClient();
-                string responseBody = await client.GetStringAsync(uri);
-                return responseBody;
+                HttpResponseMessage res = await client.GetAsync(uri);
+                if (res.IsSuccessStatusCode)
+                {
+                    return await res.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    throw new Exception($"Received {res.StatusCode} status code from request.");
+                }
             }
             catch (HttpRequestException e)
             {
@@ -74,11 +81,11 @@ namespace League.Bot.Services
         }
 
         //LEAGUE-V4 - /lol/league/v4/entries/by-summoner/{encryptedSummonerId}
-        public async Task<SummonerRanking> GetRankingBySummoner(string summonerID)
+        public async Task<List<SummonerRanking>> GetRankingBySummoner(string summonerID)
         {
             string url = string.Format("https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{0}?api_key={1}", summonerID, Environment.GetEnvironmentVariable("LeagueToken"));
             string res = await GetRequest(url);
-            SummonerRanking summonerRanking = JsonConvert.DeserializeObject<SummonerRanking>(res);
+            List<SummonerRanking> summonerRanking = JsonConvert.DeserializeObject<List<SummonerRanking>>(res);
             return summonerRanking;
         }
     }

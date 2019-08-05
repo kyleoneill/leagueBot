@@ -11,8 +11,8 @@ using Newtonsoft.Json.Linq;
 
 namespace League.Bot.Commands
 {
-    //TOOD: Break this into a partial class so every command can be in its own file
-    public class BotCommands : ModuleBase<SocketCommandContext>
+    //TOOD: Break this into a partial class so every command can be in its own file?
+    public partial class BotCommands : ModuleBase<SocketCommandContext>
     {
         readonly WebRequester _webRequester;
         readonly BotDatabase _db;
@@ -22,43 +22,15 @@ namespace League.Bot.Commands
             _db = db;
         }
 
-        [Command("whosmad")]
-        [Summary("Does some stuff")]
-        public async Task Stuff()
-        {
-            await Context.Channel.SendMessageAsync("HOES MAD");
-        }
-
-        [Command("square")]
-        [Summary("Squares two numbers")]
-        public async Task Square(int num)
-        {
-            int square = num * num;
-            await Context.Channel.SendMessageAsync(string.Format("The square of {0} is {1}", num.ToString(), square.ToString()));
-        }
-
-        [Command("info")]
-        [Summary("States some info about the user")]
-        public async Task Info()
-        {
-            await Context.Channel.SendMessageAsync(string.Format("You are {0}. This is the {1} channel in guild {2}.", Context.Message.Author.Username, Context.Message.Channel.Name, Context.Guild.Name));
-        }
-
-        [Command("setName")]
-        [Summary("Sets your summoner name.")]
-        public async Task SetName(string summonerName)
-        {
-            Summoner summoner = await _webRequester.GetSummonerByNameAsync(summonerName);
-            Console.WriteLine(summoner.Name);
-            //_db.SetUser(Context.Message.Author.Username, Context.Guild.Name, ); have this just take the summoner objects
-        }
-
-        [Command("dbGet")]
-        [Summary("foo")]
-        public async Task DbGet()
+        /*
+        [Command("getName")]
+        [Summary("Gets your summoner name.")]
+        public async getName DbGet()
         {
 
         }
+        */
+
         /*
         [Command("shrine")]
         [Summary("Provides the current perks available in the Shrine of Secrets.")]
