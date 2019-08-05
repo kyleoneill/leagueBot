@@ -4,6 +4,7 @@ node_modules
 .vs/
 log.txt
 *.sqlite
+launchSettings.json
 
 #Above is from JS version, below is for C# version
 
