@@ -29,13 +29,21 @@ namespace League.Bot.Commands
             List<SummonerRanking> ranking = await _webRequester.GetRankingBySummoner(summonerObj.Id);
 
             Random rand = new Random();
+            string filename = $"https://ddragon.leagueoflegends.com/cdn/{Globals.currentLeaguePatch}/img/profileicon/{summonerObj.ProfileIconId}.png";
             var embedBuilder = new EmbedBuilder
             {
                 Title = $"Summoner Info - {summonerObj.Name}",
-                Color = new Color(rand.Next(256), rand.Next(256), rand.Next(256))
+                Color = new Color(rand.Next(256), rand.Next(256), rand.Next(256)),
+                ThumbnailUrl = filename
             };
-            embedBuilder.AddField("Solo/Duo", $"Rank: {ranking[0].Tier.ToTitleCase()} {ranking[0].Rank}\n LP: {ranking[0].LeaguePoints}\n Winrate: {(ranking[0].Wins / ranking[0].Losses) * 100}");
-
+            for(int i = 0; i < ranking.Count; i++)
+            {
+                if (ranking[i].QueueType == "RANKED_SOLO_5x5")
+                    ranking[i].QueueType = "Solo/Duo";
+                else if (ranking[i].QueueType == "RANKED_TEAM_5x5")
+                    ranking[i].QueueType = "Team 5x5";
+                embedBuilder.AddField(ranking[i].QueueType, $"Rank: {ranking[i].Tier.ToTitleCase()} {ranking[i].Rank}\n LP: {ranking[i].LeaguePoints.ToString()}\nWinrate: {(int)(((float)ranking[i].Wins / (float)ranking[i].Losses)*100)}%");
+            }
             Embed embed = embedBuilder.Build();
             await Context.Channel.SendMessageAsync(embed: embed);
         }
