@@ -42,7 +42,8 @@ namespace League.Bot.Commands
                     ranking[i].QueueType = "Solo/Duo";
                 else if (ranking[i].QueueType == "RANKED_TEAM_5x5")
                     ranking[i].QueueType = "Team 5x5";
-                embedBuilder.AddField(ranking[i].QueueType, $"Rank: {ranking[i].Tier.ToTitleCase()} {ranking[i].Rank}\n LP: {ranking[i].LeaguePoints.ToString()}\nWinrate: {(int)(((float)ranking[i].Wins / (float)ranking[i].Losses)*100)}%");
+                int winrate = (int)(((float)ranking[i].Wins / (float)(ranking[i].Losses + ranking[i].Wins)) * 100);
+                embedBuilder.AddField(ranking[i].QueueType, $"Rank: {ranking[i].Tier.ToTitleCase()} {ranking[i].Rank}\n LP: {ranking[i].LeaguePoints.ToString()}\nWinrate: {winrate}%", true);//i % 2 == 0);
             }
             Embed embed = embedBuilder.Build();
             await Context.Channel.SendMessageAsync(embed: embed);
