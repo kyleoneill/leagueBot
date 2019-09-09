@@ -38,7 +38,7 @@ module.exports = {
             if(updateDB) {
                 build = await helper.rankedBoostBuild(championForURL);
                 if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3) {
-                    message.channel.send(`RankedBoost does not have any build data for ${args[0]}.`);
+                    message.channel.send(`RankedBoost does not have a complete build for ${args[0]}.`);
                     return;
                 }
                 let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
