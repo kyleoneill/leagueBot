@@ -55,7 +55,7 @@ bot.on('message', async message => {
     if(message.author.bot || !message.content.startsWith(config.prefix) || !message.guild) return
 
     const index = message.content.indexOf(' '); //Get index of first space in message. If none, return -1
-    var command = null;
+    var command = '';
     var args = [];
     if(index == -1){ //If no spaces in message, just get command
         command = message.content.slice(config.prefix.length);
@@ -64,6 +64,8 @@ bot.on('message', async message => {
         command = message.content.slice(config.prefix.length, index);
         args = message.content.slice(1 + index).split(', ');
     }
+
+    command = command.toLowerCase();
 
     if(!bot.commands.has(command)) {
         message.channel.send(`I don't seem to know '!${command}'. Check out '!help' to see what I can do.`);
