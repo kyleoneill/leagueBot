@@ -15,7 +15,7 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 11. `!counter [champion]` - Displays five counters to a given champion.
 
 ## Misc
-Commands that take `[summoner]` as an argument (`!ranking` and `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
+Commands that take `[summoner]` as an argument (ex, `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
 
 Using pm2, the robot can be started with `pm2 start src/bot.js &` and ended with `pm2 delete 0`.
 
