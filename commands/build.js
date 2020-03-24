@@ -16,7 +16,6 @@ module.exports = {
                 return;
             }
             var today = new Date();
-            var output = `The build for ${args[0]} is:\n`;
             var build = new Object;
             var updateDB = true;
 
@@ -42,7 +41,8 @@ module.exports = {
                     return;
                 }
                 let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-                await this.buildDatabase.setBuild(champion, build.itemsDB, build.primaryRunesDB, build.secondaryRunesDB, dateForDatatable);
+                formatBuildForDB(build)
+                await this.buildDatabase.setBuild(champion, build, dateForDatatable);
             }
 
             const primaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.primaryRunes[0].toLowerCase());
@@ -75,6 +75,7 @@ module.exports = {
         }
         catch(e) {
             message.channel.send(`There isn't any build data for ${args[0]} on RankedBoost.\nSee log for details.`);
+            console.log(e)
             common.botLog(e);
         }
     }
@@ -97,4 +98,11 @@ function getRuneList(runes) {
         runeList[i] = rune;
     }
     return runeList;
+}
+
+function formatBuildForDB(build) {
+    build.items = build.items.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+    build.primaryRunes = build.primaryRunes.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+    build.secondaryRunes = build.secondaryRunes.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+    return 0
 }

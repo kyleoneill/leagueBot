@@ -34,14 +34,19 @@ class dbFunctions {
             botLog(e);
         }
     }
-    async setBuild(champion, items, runePrimary, runeSecondary, date) {
-        try{
-            let query = `INSERT OR REPLACE INTO buildTable (champion, items, runePrimary, runeSecondary, date) VALUES ('${champion}','${items}', '${runePrimary}', '${runeSecondary}', '${date}')`;
-            await db.run(query);
-            botLog(`Updated build information for champion ${champion}`);
+    async setBuild(champion, build, date) {
+        if(build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3) {
+            throw new Error("Tried to update build.sqlite table with an incomplete build")
         }
-        catch(e){
-            botLog(e);
+        else{
+            try{
+                let query = `INSERT OR REPLACE INTO buildTable (champion, items, runePrimary, runeSecondary, date) VALUES ('${champion}','${build.items}', '${build.primaryRunes}', '${build.secondaryRunes}', '${date}')`;
+                await db.run(query);
+                botLog(`Updated build information for champion ${champion}`);
+            }
+            catch(e){
+                botLog(e);
+            }
         }
     }
     close(){
