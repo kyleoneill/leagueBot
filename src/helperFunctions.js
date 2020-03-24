@@ -6,6 +6,7 @@ module.exports = {
         var items = [];
         var primaryRunes = [];
         var secondaryRunes = [];
+        var tertiaryRunes = [];
 
         let url = `https://rankedboost.com/league-of-legends/build/${champion}/`;
         let rankedboostData = await getRequest.httpsRequest(url);
@@ -24,26 +25,29 @@ module.exports = {
         let domRuneSection = dom.window.document.querySelectorAll("#runes > div");
 
         let primaryRuneDom = domRuneSection[0].children;
-        primaryRunes.push(primaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent);
-        buildRuneSection(primaryRuneDom, primaryRunes)
+        buildRuneSection(primaryRuneDom, primaryRunes, '.rb-build-rune-text');
 
         let secondaryRuneDom = domRuneSection[1].children;
-        secondaryRunes.push(secondaryRuneDom[0].querySelector('div:nth-child(2) > div').textContent);
-        buildRuneSection(secondaryRuneDom, secondaryRunes)
+        buildRuneSection(secondaryRuneDom, secondaryRunes, '.rb-build-rune-text');
+
+        let tertiaryRuneDom = domRuneSection[2].children;
+        tertiaryRunes.push("Shards");
+        buildRuneSection(tertiaryRuneDom, tertiaryRunes, '.third-runes-txt');
 
         var build = {
             items: items,
             primaryRunes: primaryRunes,
             secondaryRunes: secondaryRunes,
+            tertiaryRunes: tertiaryRunes
         }
 
         return build;
     },
 }
 
-function buildRuneSection(runeDom, runeList) {
-    for(let i = 1; i < runeDom.length; i++) {
-        let rune = runeDom[i].querySelector('.rb-build-rune-text').textContent;
+function buildRuneSection(runeDom, runeList, selector) {
+    for(let i = 0; i < runeDom.length; i++) {
+        let rune = runeDom[i].querySelector(selector).textContent;
         runeList.push(rune)
     }
     return 0

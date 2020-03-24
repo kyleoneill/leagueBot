@@ -13,7 +13,7 @@ class dbFunctions {
             }
             else {
                 botLog(`buildTable SQLite table does not exist, creating a new table.`);
-                await db.run("CREATE TABLE buildTable(champion TEXT, items TEXT, runePrimary TEXT, runeSecondary TEXT, date TEXT, PRIMARY KEY(champion))");
+                await db.run("CREATE TABLE buildTable(champion TEXT, items TEXT, runePrimary TEXT, runeSecondary TEXT, runeTertiary TEXT, date TEXT, PRIMARY KEY(champion))");
             }
         }
         catch(e) {
@@ -22,7 +22,7 @@ class dbFunctions {
     }
     async getBuild(champion) {
         try{
-            var row = await db.get(`SELECT items, runePrimary, runeSecondary, date FROM buildTable WHERE champion = '${champion}'`);
+            var row = await db.get(`SELECT items, runePrimary, runeSecondary, runeTertiary, date FROM buildTable WHERE champion = '${champion}'`);
             if(row){
                 return row;
             }
@@ -35,12 +35,12 @@ class dbFunctions {
         }
     }
     async setBuild(champion, build, date) {
-        if(build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3) {
+        if(build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3 || build.tertiaryRunes.length != 4) {
             throw new Error("Tried to update build.sqlite table with an incomplete build")
         }
         else{
             try{
-                let query = `INSERT OR REPLACE INTO buildTable (champion, items, runePrimary, runeSecondary, date) VALUES ('${champion}','${build.items}', '${build.primaryRunes}', '${build.secondaryRunes}', '${date}')`;
+                let query = `INSERT OR REPLACE INTO buildTable (champion, items, runePrimary, runeSecondary, runeTertiary, date) VALUES ('${champion}','${build.items}', '${build.primaryRunes}', '${build.secondaryRunes}', '${build.tertiaryRunes}', '${date}')`;
                 await db.run(query);
                 botLog(`Updated build information for champion ${champion}`);
             }

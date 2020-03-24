@@ -29,6 +29,7 @@ module.exports = {
                     build.items = getItemList(buildData.items);
                     build.primaryRunes = getRuneList(buildData.runePrimary);
                     build.secondaryRunes = getRuneList(buildData.runeSecondary);
+                    build.tertiaryRunes = getRuneList(buildData.runeTertiary);
                 }
                 else{
                     common.botLog(`Champion ${args[0]} has an expired build. Days since update: ${differenceDays}, Last update date: ${buildData.date}`);
@@ -36,7 +37,7 @@ module.exports = {
             }
             if(updateDB) {
                 build = await helper.rankedBoostBuild(championForURL);
-                if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3) {
+                if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3 || build.tertiaryRunes.length != 4) {
                     message.channel.send(`RankedBoost does not have a complete build for ${args[0]}.`);
                     return;
                 }
@@ -69,6 +70,11 @@ module.exports = {
                         name: `${secondaryRuneEmoji} ${build.secondaryRunes[0]} ${secondaryRuneEmoji}`,
                         value: `1. ${build.secondaryRunes[1]}\n2. ${build.secondaryRunes[2]}`,
                         inline: true,
+                    },
+                    {
+                        name: `:shield: ${build.tertiaryRunes[0]} :shield:`,
+                        value: `1. ${build.tertiaryRunes[1]}\n2. ${build.tertiaryRunes[2]}\n3. ${build.tertiaryRunes[3]}`,
+                        inline: true
                     }
                 ]
             },files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}]});
@@ -101,8 +107,8 @@ function getRuneList(runes) {
 }
 
 function formatBuildForDB(build) {
-    build.items = build.items.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
-    build.primaryRunes = build.primaryRunes.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
-    build.secondaryRunes = build.secondaryRunes.map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+    for(var key of Object.keys(build)) {
+        build[key] = build[key].map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+    }
     return 0
 }
