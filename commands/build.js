@@ -88,7 +88,7 @@ module.exports = {
 }
 
 function getItemList(items) {
-    let buildList = items.split(" ");
+    let buildList = items.split(",");
     for(let i = 0; i < buildList.length; i++) {
         let item = buildList[i].replace(/-/g, " ");
         item = common.addPossessive(item);
@@ -98,7 +98,7 @@ function getItemList(items) {
 }
 
 function getRuneList(runes) {
-    let runeList = runes.split(" ")
+    let runeList = runes.split(",")
     for(let i = 1; i < runeList.length; i++) {
         let rune = runeList[i].replace(/-/g, " ");
         runeList[i] = rune;
