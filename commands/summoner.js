@@ -8,7 +8,8 @@ module.exports = {
             var summonerName;
             var useDB = true;
             if(!args.length){
-                summonerName = await this.botDatabase.getName(message);
+                var res = await this.database.User.findOne({where: {username: message.author.username}});
+                summonerName = res.summonerName;
             }
             else{
                 summonerName = args[0];
@@ -21,7 +22,7 @@ module.exports = {
             else{
                 var summonerInfo
                 if(useDB){
-                    summonerInfo = await this.botDatabase.getAccountInfo(message);
+                    summonerInfo = await this.database.User.findOne({where: {username: message.author.username}});
                 }
                 else{
                     summonerInfo = await getRequest.getSummonerByName(summonerName);
@@ -68,7 +69,7 @@ module.exports = {
                         }
                     });
                     message.channel.send({embed: {
-                        color: Math.floor(Math.random() * 16777214) + 1,
+                        color: common.getRandomDiscordMessageColor(),
                         title: summonerInfo.summonerName,
                         thumbnail: {
                             "url": `attachment://icon.png`

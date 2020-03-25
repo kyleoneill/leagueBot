@@ -2,5 +2,6 @@ config/auth.json
 config/photos/*/*.png
 node_modules
 .vs/
-log.txt
+*.txt
 *.sqlite
+TODO

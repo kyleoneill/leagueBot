@@ -9,7 +9,7 @@ module.exports = {
         try {
             var accountInfo
             if(!args.length) {
-                accountInfo = await this.botDatabase.getAccountInfo(message)
+                accountInfo = await this.database.User.findOne({where: {username: message.author.username}});
             }
             else {
                 accountInfo = await getRequest.getSummonerByName(args[0])

@@ -7,7 +7,7 @@ module.exports = {
         //TODO - finish this - is not present on help or markdown file
         //can go back 100 matches
         //TODO - allow the use of filter parameters like "lane" and "champion"
-        var accountInfo = await this.botDatabase.getAccountInfo(message);
+        var accountInfo = await this.database.User.findOne({where: {username: message.author.username}});
         if(accountInfo == null || accountInfo.accountId == null) {
             message.channel.send(common.noName());
             return;

@@ -19,7 +19,7 @@ module.exports = {
             var build = new Object;
             var updateDB = true;
 
-            var buildData = await this.buildDatabase.getBuild(champion);
+            var buildData = await this.database.Build.findOne({where: {champion: champion}});
             if(buildData != null) {
                 let expirationCheck = new Date(buildData.date);
                 let timeDifference = Math.abs(today.getTime() - expirationCheck.getTime());
@@ -39,18 +39,25 @@ module.exports = {
                 build = await helper.rankedBoostBuild(championForURL);
                 if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3 || build.tertiaryRunes.length != 4) {
                     message.channel.send(`RankedBoost does not have a complete build for ${args[0]}.`);
-                    return;
+                    return
                 }
                 let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-                formatBuildForDB(build)
-                await this.buildDatabase.setBuild(champion, build, dateForDatatable);
+                formatBuildForDB(build);
+                await this.database.Build.upsert({
+                    champion: champion,
+                    items: build.items.toString(),
+                    runePrimary: build.primaryRunes.toString(),
+                    runeSecondary: build.secondaryRunes.toString(),
+                    runeTertiary: build.tertiaryRunes.toString(),
+                    date: dateForDatatable
+                });
             }
 
             const primaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.primaryRunes[0].toLowerCase());
             const secondaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.secondaryRunes[0].toLowerCase());
             var championName = common.cleanName(args[0]);
             message.channel.send({embed: {
-                color: Math.floor(Math.random() * 16777214) + 1,
+                color: common.getRandomDiscordMessageColor(),
                 title: args[0].toProper() + " Build",
                 thumbnail: {
                     "url": `attachment://icon.png`
@@ -81,7 +88,6 @@ module.exports = {
         }
         catch(e) {
             message.channel.send(`There isn't any build data for ${args[0]} on RankedBoost.\nSee log for details.`);
-            console.log(e)
             common.botLog(e);
         }
     }
@@ -94,21 +100,21 @@ function getItemList(items) {
         item = common.addPossessive(item);
         buildList[i] = item;
     }
-    return buildList;
+    return buildList
 }
 
 function getRuneList(runes) {
-    let runeList = runes.split(",")
+    let runeList = runes.split(",");
     for(let i = 1; i < runeList.length; i++) {
         let rune = runeList[i].replace(/-/g, " ");
         runeList[i] = rune;
     }
-    return runeList;
+    return runeList
 }
 
 function formatBuildForDB(build) {
     for(var key of Object.keys(build)) {
-        build[key] = build[key].map(x => x.replace(/'/g, "").replace(/\s/g, "-"))
+        build[key] = build[key].map(x => x.replace(/'/g, "").replace(/\s/g, "-"));
     }
     return 0
 }

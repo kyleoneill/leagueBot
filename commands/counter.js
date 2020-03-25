@@ -20,7 +20,7 @@ module.exports = {
             var today = new Date();
             var output = `The five best counters for ${args[0]} are:\n`;
 
-            var counterData = await this.counterDatabase.getCounter(champion);
+            var counterData = await this.database.Counter.findOne({where: {champion: champion}});
             if(counterData != null) {
                 let expirationCheck = new Date(counterData.date);
                 let differenceTime = Math.abs(today.getTime() - expirationCheck.getTime());
@@ -61,7 +61,11 @@ module.exports = {
 
             countersForDatatable = countersForDatatable.substring(0, countersForDatatable.length - 1);
             let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-            await this.counterDatabase.setCounter(champion, countersForDatatable, dateForDatatable);
+            await this.database.Counter.upsert({
+                champion: champion,
+                counters: countersForDatatable.toString(),
+                date: dateForDatatable
+            });
 
             message.channel.send(output);
             return;

@@ -21,6 +21,10 @@ if (!String.prototype.toProper) {
 }
 
 module.exports = {
+    getRandomDiscordMessageColor: function() {
+        var color = Math.floor(Math.random() * 16777214) + 1;
+        return color
+    },
     getTime: function() {
         var timeStamp = (new Date()).toLocaleString('en-US');
         return timeStamp;

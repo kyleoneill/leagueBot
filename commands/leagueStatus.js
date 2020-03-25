@@ -27,7 +27,7 @@ module.exports = {
                 })
             })
             message.channel.send({embed: {
-                color: Math.floor(Math.random() * 16777214) + 1,
+                color: common.getRandomDiscordMessageColor(),
                 title: `Riot Server Status`,
                 fields: [
                     {

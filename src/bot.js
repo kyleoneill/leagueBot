@@ -11,19 +11,15 @@ const getTime = common.getTime;
 const botLog = common.botLog;
 
 //Bot Database
-const userDBFunctions = require('./databases/userDB');
-let userDB = new userDBFunctions();
-const counterDBFunctions = require('./databases/counterDB');
-let counterDB = new counterDBFunctions();
-const buildDBFunctions = require('./databases/buildDB');
-let buildDB = new buildDBFunctions();
+const {User, Build, Counter} = require('./database');
+this.database = {User, Build, Counter};
 
 //Collect bot commands from commands folder
 bot.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles) {
     const command = require(`../commands/${file}`);
-    bot.commands.set(command.name, command);
+    bot.commands.set(command.name.toLowerCase(), command);
 }
 
 //On bot ready, start the database
@@ -32,9 +28,6 @@ bot.on('ready', async function() {
         botLog(`~~~~~Bot Started~~~~~`);
         botLog(`Logged in as: ${bot.user.username}`);
         await bot.user.setActivity("Garen jungle");
-        await userDB.start();
-        await counterDB.start();
-        await buildDB.start();
     }
     catch(e){
         botLog(e);
@@ -42,9 +35,6 @@ bot.on('ready', async function() {
 });
 
 //Pack objects inside of 'this' for transport to commands
-this.botDatabase = userDB;
-this.counterDatabase = counterDB;
-this.buildDatabase = buildDB;
 this.catAPI = auth.catKey;
 this.discordID = auth.discordID;
 this.guildList = bot.guilds;
@@ -81,9 +71,6 @@ bot.on('message', async message => {
         await bot.commands.get(command).execute.call(this, message, args);
         if(command == 'shutdown' && message.author.username == 'sammie287') {
             botLog('~~~~~Bot shutting down~~~~~');
-            userDB.close();
-            counterDB.close();
-            buildDB.close();
             bot.destroy();
         }
     }

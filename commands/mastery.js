@@ -6,7 +6,7 @@ module.exports = {
     name:'mastery',
     async execute(message, args) {
         try {
-            const accountInfo = await this.botDatabase.getAccountInfo(message);
+            const accountInfo = await this.database.User.findOne({where: {username: message.author.username}});
             if(accountInfo == null){
                 message.channel.send(common.noName());
                 return;
@@ -32,7 +32,7 @@ module.exports = {
                             masteryPointsStr += `Mastery Points Until Next Level: ${masteryData.championPointsUntilNextLevel}`;
                         }
                         message.channel.send({embed: {
-                            color: Math.floor(Math.random() * 16777214) + 1,
+                            color: common.getRandomDiscordMessageColor(),
                             title: `${args[0]} - ${message.author.username}`,
                             thumbnail: {
                                 "url": `attachment://icon.png`

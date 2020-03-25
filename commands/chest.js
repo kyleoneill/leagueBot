@@ -15,14 +15,14 @@ module.exports = {
     async execute(message, args) {
         try{
             var summonerName = null;
-            var DBsummonerName = await this.botDatabase.getName(message);
             if(args.length) {
                 summonerName = args[0];
             }
-            else if(!args.length && DBsummonerName != null) {
-                summonerName = DBsummonerName;
+            else {
+                var res = await this.database.User.findOne({where: {username: message.author.username}});
+                summonerName = res.summonerName;
             }
-            else{
+            if(summonerName == null){
                 message.channel.send(common.noName());
                 return;
             }
