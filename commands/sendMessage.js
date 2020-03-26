@@ -4,7 +4,7 @@ module.exports = {
     name:'sendMessage',
     execute(message, args) {
         try{
-            if(message.author.id != this.discordID || !args.length) {
+            if(message.author.id != process.env.DISCORDID || !args.length) {
                 return;
             }
             var guildObj;

@@ -1,5 +1,5 @@
 const https = require('https');
-const {leagueKey} = require('../config/auth.json');
+const leagueKey = process.env.LEAGUEKEY;
 const common = require('./common');
 
 module.exports = {

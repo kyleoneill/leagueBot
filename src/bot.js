@@ -1,10 +1,10 @@
+require('dotenv').config();
 //Package imports
 const fs = require('fs');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 //Custom Imports
-const auth = require('../config/auth.json');
 const config = require('../config/config.json');
 const common = require('./common');
 const getTime = common.getTime;
@@ -35,8 +35,6 @@ bot.on('ready', async function() {
 });
 
 //Pack objects inside of 'this' for transport to commands
-this.catAPI = auth.catKey;
-this.discordID = auth.discordID;
 this.guildList = bot.guilds;
 this.bot = bot;
 
@@ -79,4 +77,4 @@ bot.on('message', async message => {
         message.channel.send('There was an error trying to execute that command.');
     }
 })
-bot.login(auth.token);
+bot.login(process.env.TOKEN);

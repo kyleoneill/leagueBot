@@ -14,7 +14,7 @@ module.exports = {
 
 async function loadImage() {
     var headers = {
-        'X-API-KEY': this.catAPI,
+        'X-API-KEY': process.env.CATKEY,
     };
     var query_params = {
         'mime_types':'jpg,png', //we only want static images as Discord doesn't like gifs

@@ -1,7 +1,6 @@
-config/auth.json
 config/photos/*/*.png
 node_modules
 .vs/
 *.txt
 *.sqlite
-TODO
+.env
