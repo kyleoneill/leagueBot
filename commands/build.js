@@ -1,5 +1,6 @@
 const common = require('../src/common.js');
 const helper = require('../src/helperFunctions.js');
+const fs = require('fs');
 
 module.exports = {
     name:'build',
@@ -9,7 +10,6 @@ module.exports = {
                 message.channel.send(`You need to tell me which champion to search for, like '!build garen'.`);
                 return
             }
-            var championForURL = common.cleanNameHyphen(args[0]);
             var champion = common.cleanName(args[0]);
             if(!common.championExists(champion)){
                 message.channel.send(`I don't think ${args[0]} is a champion, try again.`);
@@ -36,6 +36,7 @@ module.exports = {
                 }
             }
             if(updateDB) {
+                var championForURL = common.cleanNameHyphen(args[0]);
                 build = await helper.rankedBoostBuild(championForURL);
                 if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3 || build.tertiaryRunes.length != 4) {
                     message.channel.send(`RankedBoost does not have a complete build for ${args[0]}.`);
@@ -56,22 +57,25 @@ module.exports = {
             const primaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.primaryRunes[0].toLowerCase());
             const secondaryRuneEmoji = this.bot.emojis.find(emoji => emoji.name == build.secondaryRunes[0].toLowerCase());
             var championName = common.cleanName(args[0]);
+            var splashPath = getChampionPhoto(championName);
             message.channel.send({embed: {
                 color: common.getRandomDiscordMessageColor(),
                 title: args[0].toProper() + " Build",
                 thumbnail: {
-                    "url": `attachment://icon.png`
+                    "url": "attachment://icon.png",
+                    "height": 120,
+                    "width": 200
                 },
                 fields: [
-                    {
-                        name: ":crossed_swords: Items :crossed_swords:",
-                        value: `1. ${build.items[0]}\n2. ${build.items[1]}\n3. ${build.items[2]}\n4. ${build.items[3]}\n5. ${build.items[4]}\n6. ${build.items[5]}`,
-                        inline: false,
-                    },
                     {
                         name: `${primaryRuneEmoji} ${build.primaryRunes[0]} ${primaryRuneEmoji}`,
                         value: `1. ${build.primaryRunes[1]}\n2. ${build.primaryRunes[2]}\n3. ${build.primaryRunes[3]}\n4. ${build.primaryRunes[4]}`,
                         inline: true,
+                    },
+                    {
+                        name: '\u200B',
+                        value: '\u200B',
+                        inline: true
                     },
                     {
                         name: `${secondaryRuneEmoji} ${build.secondaryRunes[0]} ${secondaryRuneEmoji}`,
@@ -79,18 +83,52 @@ module.exports = {
                         inline: true,
                     },
                     {
+                        name: '\u200B',
+                        value: '\u200B',
+                    },
+                    {
+                        name: ":crossed_swords: Items :crossed_swords:",
+                        value: `1. ${build.items[0]}\n2. ${build.items[1]}\n3. ${build.items[2]}\n4. ${build.items[3]}\n5. ${build.items[4]}\n6. ${build.items[5]}`,
+                        inline: true,
+                    },
+                    {
+                        name: '\u200B',
+                        value: '\u200B',
+                        inline: true
+                    },
+                    {
                         name: `:shield: ${build.tertiaryRunes[0]} :shield:`,
                         value: `1. ${build.tertiaryRunes[1]}\n2. ${build.tertiaryRunes[2]}\n3. ${build.tertiaryRunes[3]}`,
                         inline: true
                     }
-                ]
-            },files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}]});
+                ],
+                image: {
+                    url: "attachment://splash.png"
+                }
+            },files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}, {attachment: splashPath, name: 'splash.png'}]});
         }
         catch(e) {
             message.channel.send(`There isn't any build data for ${args[0]} on RankedBoost.\nSee log for details.`);
             common.botLog(e);
         }
     }
+}
+
+function getChampionPhoto(championName) {
+    var files = fs.readdirSync('config/photos/champion_tiles/');
+    var result = [];
+    for(var index = 0; index < files.length; index++) {
+        var value = files[index].toLowerCase();
+        if(value.includes(championName.toLowerCase())) {
+            result.push(value)
+        }
+    }
+    if(result.length == 0) {
+        throw new Error(`Missing photo for champion ${championName} in build command`)
+    }
+    var fileName = result[Math.floor(Math.random() * result.length)];
+    var filePath = `config/photos/champion_tiles/${fileName}`;
+    return filePath
 }
 
 function getItemList(items) {

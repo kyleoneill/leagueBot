@@ -1,4 +1,4 @@
-config/photos/*/*.png
+config/photos/*
 node_modules
 .vs/
 *.txt

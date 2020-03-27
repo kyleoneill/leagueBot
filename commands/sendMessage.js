@@ -7,15 +7,13 @@ module.exports = {
             if(message.author.id != process.env.DISCORDID || !args.length) {
                 return;
             }
-            var guildObj;
             var guildList = common.unpackMap(this.guildList);
             guildList.forEach(guild => {
                 if(guild.name == args[0]) {
-                    guildObj = guild;
+                    var channelList = common.unpackMap(guild.channels);
+                    channelList[0].send(args[1]);
                 }
             });
-            var channelList = common.unpackMap(guildObj.channels);
-            channelList[0].send(args[1]);
         }
         catch(e){
             common.botLog(e);
