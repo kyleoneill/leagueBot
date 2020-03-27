@@ -118,8 +118,8 @@ function getChampionPhoto(championName) {
     var files = fs.readdirSync('config/photos/champion_tiles/');
     var result = [];
     for(var index = 0; index < files.length; index++) {
-        var value = files[index].toLowerCase();
-        if(value.includes(championName.toLowerCase())) {
+        var value = files[index];
+        if(value.toLowerCase().includes(championName.toLowerCase())) {
             result.push(value)
         }
     }
