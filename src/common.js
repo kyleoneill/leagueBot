@@ -21,6 +21,13 @@ if (!String.prototype.toProper) {
 }
 
 module.exports = {
+    getBaseURLFromString: function(url) {
+        var pathArray = url.split( '/' );
+        var protocol = pathArray[0];
+        var host = pathArray[2];
+        var baseURL = protocol + '//' + host;
+        return baseURL
+    },
     getRandomDiscordMessageColor: function() {
         var color = Math.floor(Math.random() * 16777214) + 1;
         return color

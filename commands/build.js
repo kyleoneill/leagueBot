@@ -36,10 +36,10 @@ module.exports = {
                 }
             }
             if(updateDB) {
-                var championForURL = common.cleanNameHyphen(args[0]);
-                build = await helper.rankedBoostBuild(championForURL);
-                if(build == null || build.items.length != 6 || build.primaryRunes.length != 5 || build.secondaryRunes.length != 3 || build.tertiaryRunes.length != 4) {
-                    message.channel.send(`RankedBoost does not have a complete build for ${args[0]}.`);
+                var championForURL = common.cleanName(args[0]);
+                build = await helper.getBuild(championForURL);
+                if(build == null || build instanceof Error || (build.name != undefined && build.name == "Error")) {
+                    message.channel.send(`Complete build not found for ${args[0]}.`);
                     return
                 }
                 let dateForDatatable = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
@@ -108,7 +108,7 @@ module.exports = {
             },files:[{attachment: `config/photos/champion/${championName.toLowerCase()}.png`, name: 'icon.png'}, {attachment: splashPath, name: 'splash.png'}]});
         }
         catch(e) {
-            message.channel.send(`There isn't any build data for ${args[0]} on RankedBoost.\nSee log for details.`);
+            message.channel.send(`Failed to get data for ${args[0]}.\nSee log for details.`);
             common.botLog(e);
         }
     }

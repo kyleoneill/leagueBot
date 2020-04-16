@@ -2,7 +2,30 @@ const https = require('https');
 const leagueKey = process.env.LEAGUEKEY;
 const common = require('./common');
 
+class RedirectError extends Error {
+    constructor(message, link) {
+        super(message)
+        this.link = link
+    }
+}
+
 module.exports = {
+    makeRequest: async function(url) {
+        try {
+            let data = await this.httpsRequest(url);
+            return data
+        }
+        catch(e) {
+            if(e instanceof RedirectError) {
+                let newLink = e.link;
+                let data = await this.httpsRequest(newLink);
+                return data
+            }
+            else {
+                return new Error("Undefined error making https request.");
+            }
+        }
+    },
     httpsGet: function(url) {
         return new Promise((resolve, reject) => {
             https.get(url, (response) => {
@@ -26,7 +49,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             https.get(url, (response) => {
                 let statusCode = response.statusCode;
-                if(statusCode != 200){
+                if(statusCode != 200 && statusCode != 302) {
                     common.botLog(`Status code ${statusCode} from GET request.`);
                     reject(statusCode);
                     return null;
@@ -36,7 +59,21 @@ module.exports = {
                     data += chunk;
                 })
                 response.on('end', () => {
-                    resolve(data);
+                    if(statusCode == 302) {
+                        //"<p>Found. Redirecting to <a href="/champion/kayle/Top?">/champion/kayle/Top?</a></p>"
+                        if(data.charAt(0) == "<") {
+                            data = data.replace( /(<([^>]+)>)/ig, '');
+                        }
+                        let newLinkSplit = data.split(' ');
+                        let newLink = newLinkSplit[newLinkSplit.length - 1];
+                        let baseURL = common.getBaseURLFromString(url);
+                        let completeLink = baseURL + newLink;
+                        const errMsg = new RedirectError("Link was redirected.", completeLink);
+                        reject(errMsg);
+                    }
+                    else {
+                        resolve(data);
+                    }
                 })
             }).on('error', reject)
         });
