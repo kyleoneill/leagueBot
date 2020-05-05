@@ -28,7 +28,8 @@ module.exports = {
                 if(differenceDays < 14) {
                     let counterList = counterData.counters.split(" ");
                     for(let i = 0; i < counterList.length; i++) {
-                        output += `${i+1}: ${counterList[i]}\n`;
+                        let processedName = counterList[i].replace(/-/g, " ");
+                        output += `${i+1}: ${processedName}\n`;
                     }
                     message.channel.send(output);
                     return;
@@ -49,13 +50,14 @@ module.exports = {
 
             let countersForDatatable
             for(let i = 0; i < domCounterSection.length && i < 5; i++) {
-                let championName = domCounterSection[i].querySelector("div.champ-block > div.theinfo > a > div").textContent;
-                output += `${i+1}: ${championName}\n`;
+                let championName = domCounterSection[i].querySelector("div.champ-block > div.theinfo > a > div").textContent.replace(" ", "-");
+                let championLane = domCounterSection[i].querySelector("div.champ-block > div.theinfo > div.info > div").textContent;
+                output += `${i+1}: ${championName.replace("-", " ")} ${championLane}\n`;
                 if(countersForDatatable == undefined) {
-                    countersForDatatable = `${championName} `
+                    countersForDatatable = `${championName}-${championLane} `
                 }
                 else{
-                    countersForDatatable += `${championName} `;
+                    countersForDatatable += `${championName}-${championLane} `;
                 }
             }
 

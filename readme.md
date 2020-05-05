@@ -17,7 +17,9 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 ## Misc
 Commands that take `[summoner]` as an argument (ex, `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
 
-Using pm2, the robot can be started with `pm2 start src/bot.js &` and ended with `pm2 delete 0`.
+The bot is started with the command `node src/bot.js`.
+
+Using pm2, the bot can be started with `pm2 start src/bot.js &` and ended with `pm2 delete 0`.
 
 LeagueBot isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games
 or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are
