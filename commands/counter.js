@@ -42,7 +42,7 @@ module.exports = {
             let url = `https://lolcounter.com/champions/${champion}`;
             let lolcounterData = await getRequest.httpsRequest(url);
             let dom = new JSDOM(lolcounterData);
-            let domCounterSection = dom.window.document.querySelectorAll("div.weak-block > div.champ-block");
+            let domCounterSection = dom.window.document.querySelectorAll("div._all div.weak-block > div.champ-block");
             if(domCounterSection.length == 0) {
                 message.channel.send(`lolcounter does not have any counter data for ${args[0]}.`);
                 return;
