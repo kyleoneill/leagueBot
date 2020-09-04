@@ -14,6 +14,23 @@ LeagueBot is a Discord bot designed to make getting information about League of 
 10. `!mastery [champion]` - Displays mastery information for a given champion.
 11. `!counter [champion]` - Displays five counters to a given champion.
 
+## Setup
+1. Get Riot's Data Dragon pack
+    * Download the Data Dragon pack located [here](https://riot-api-libraries.readthedocs.io/en/latest/ddragon.html) and unpack it.
+2. Get images from the data pack
+    * Create a folder in `config` called `photos`. 
+    * Open the unpacked data dragon folder and navigate to `{current_patch}/img`. Copy the `champion` and `profileicon` folders into `photos`. Make sure all files in `champion` are lowercase.
+    * Navigate back to the top of the data dragon folder and then into `img/champion/spash` and copy all files here into a new folder in `photos` named `champion_tiles`.
+3. Get the list of current champions from the data pack
+    * Open the unpakced data dragon folder and navigate to `{current_patch}/data/en_US`
+    * Copy `champion.json` into the `config` folder.
+4. Set up environment variables
+    * By default LeagueBot uses a .env file
+    * The three variables that must be set are 
+        * `TOKEN` - The discord bot token
+        * `LEAGUEKEY` - The Riot API key
+        * `CATKEY` - An API key from [TheDogAPI](https://thedogapi.com/)
+
 ## Misc
 Commands that take `[summoner]` as an argument (ex, `!chest`) can be used without an argument if the `!setName` command has been used to give the robot your league summoner name.
 
